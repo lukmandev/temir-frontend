@@ -1,31 +1,34 @@
 import {createTheme, ThemeOptions} from '@mui/material/styles';
+import {media} from "./media";
 
 
+// @ts-ignore
 export const theme: ThemeOptions = createTheme({
+    typography: {
+        "fontFamily": `'Raleway', sans-serif`,
+        "fontSize": media(14, 16),
+    },
     palette: {
         primary: {
             main: '#212121',
         },
         secondary: {
-            main: '#64748B',
+            main: '#FFFFFF',
         },
         tertiary: {
-            main: '#000',
+            main: '#FFFFFF',
         },
         quaternary: {
             main: '#000'
         },
-        quinary: {
-            main: "#000"
-        },
         senary: {
-            main: '#000'
+            main: '#0D82F9'
         },
         septenary: {
-            main: '#000'
+            main: '#D6D6D6'
         },
         octonary: {
-            main: '#000'
+            main: '#414141'
         },
         nonary: {
             main: '#000'
@@ -35,4 +38,3 @@ export const theme: ThemeOptions = createTheme({
         }
     },
 });
-// primary secondary tertiary quaternary quinary senary septenary octonary nonary denary

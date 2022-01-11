@@ -3,7 +3,7 @@ import {ERRORS} from "../constants/errors";
 import {User} from "../models/user";
 
 
-export interface fetchUserResultInterface {
+export interface fetchUserInterface {
     success: boolean;
     data: User | null;
     error: null | string;
@@ -11,7 +11,7 @@ export interface fetchUserResultInterface {
 }
 
 export const fetchUser = async (uniqueId: string | string[] | undefined) => {
-    const result: fetchUserResultInterface = {
+    const result: fetchUserInterface = {
         success: false,
         data: null,
         error: null,

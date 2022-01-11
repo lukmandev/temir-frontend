@@ -8,7 +8,7 @@ type SliceState = {
 
 const initialState: SliceState = {
     isLoading: false,
-    isDarkMode: false
+    isDarkMode: true
 }
 
 const main = createSlice({

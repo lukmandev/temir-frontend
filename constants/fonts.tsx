@@ -43,7 +43,7 @@ export const fonts = {
     },
     CASTELLAR: {
         fontFamily: "Castellar",
-        link: <link href="https://fonts.googleapis.com/css2?family=Calligraffitti&display=swap" rel="stylesheet" />,
+        link: "",
         fontWeight: 400
     },
     CHATHURA: {
@@ -188,4 +188,11 @@ export const fonts = {
     //     fontWeight: 400
     //
     // }
+}
+
+
+export const fontFamilies = {
+    'WALLPOET': {
+        fontFamily: "'Wallpoet', cursive",
+    }
 }

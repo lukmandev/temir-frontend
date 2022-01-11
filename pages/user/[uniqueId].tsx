@@ -1,28 +1,69 @@
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
-import {createContext, useContext} from "react";
-import {fetchUser} from "../../actions/user";
+import {createContext, useContext, useEffect, useState} from "react";
+import {fetchUser, fetchUserInterface} from "../../actions/user";
 import Preload from "../../components/Preload";
+import {Container, Theme} from "@mui/material";
+import TopSide from "../../components/pages/user/TopSide";
+import {makeStyles} from "@mui/styles";
+import clsx from "clsx";
+import {useSelector} from "react-redux";
+import {selectIsDarkMode} from "../../store/selector/main";
+import {useRouter} from "next/router";
 
 
 export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
-    const result = await fetchUser(ctx.query.uniqueId);
+    const userInfo: fetchUserInterface = await fetchUser(ctx.query.uniqueId);
     return {
         props: {
-            result
+            userInfo
         },
     }
 }
 
 const UserContext = createContext({});
 
-const useUserContext = () => useContext(UserContext);
+export const useUserContext = () => useContext(UserContext);
 
-const User = ({result}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const useStyles = makeStyles((theme:Theme) => ({
+    containedFluid: {
+        background: theme.palette.secondary.main,
+        '&.dark': {
+            background: theme.palette.primary.main,
+        }
+    },
 
-    return <Preload />
+}));
+
+const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const styles = useStyles();
+    const isDarkMode = useSelector(selectIsDarkMode);
+    const router = useRouter();
+    const [isRemove, setIsRemove] = useState(false);
+    useEffect(() => {
+        setTimeout(() => {
+            setIsRemove(true);
+        }, 3000);
+    }, []);
+
+    useEffect(() => {
+        if(userInfo.notFound || userInfo.error){
+            router.push(userInfo.notFound ? '/404' : '/500');
+        }
+    }, [userInfo.notFound, userInfo.error]);
+
+    if(userInfo.notFound || userInfo.error){
+        return "";
+    }
+
+
     return (
-        <UserContext.Provider value={result}>
-            <h1>Hello World</h1>
+        <UserContext.Provider value={userInfo}>
+            {/*<Preload isRemove={isRemove} />*/}
+            <Container disableGutters maxWidth={false} className={clsx(styles.containedFluid, {dark: isDarkMode})}>
+                <Container maxWidth="md" disableGutters>
+                    <TopSide />
+                </Container>
+            </Container>
         </UserContext.Provider>
     )
 }

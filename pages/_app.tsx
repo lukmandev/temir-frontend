@@ -8,8 +8,14 @@ import '../utility/modules';
 import createEmotionCache from '../utility/createEmotionCache';
 import {theme} from "../utility/theme";
 import {setupStore} from "../store/reducer";
-import '../assets/styles/index.css';
-
+import '../assets/styles/ABHAYA_LIBRE.css';
+import '../assets/styles/ALLERTA_STENCIL.css';
+import '../assets/styles/ANTON.css';
+import '../assets/styles/BAUHAUS_93.css';
+import '../assets/styles/BLACK_OPS_ONE.css';
+import '../assets/styles/CALLIGRAFFITTI.css';
+import '../assets/styles/CASTELLAR.css';
+import '../assets/styles/BELLOTA_TEXT.css';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
