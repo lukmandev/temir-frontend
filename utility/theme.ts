@@ -2,10 +2,10 @@ import {createTheme, ThemeOptions} from '@mui/material/styles';
 import {media} from "./media";
 
 
-// @ts-ignore
 export const theme: ThemeOptions = createTheme({
     typography: {
         "fontFamily": `'Raleway', sans-serif`,
+        // @ts-ignore
         "fontSize": media(14, 16),
     },
     palette: {
@@ -16,10 +16,10 @@ export const theme: ThemeOptions = createTheme({
             main: '#FFFFFF',
         },
         tertiary: {
-            main: '#FFFFFF',
+            main: '#515151',
         },
         quaternary: {
-            main: '#000'
+            main: '#CACACA'
         },
         senary: {
             main: '#0D82F9'
@@ -31,10 +31,10 @@ export const theme: ThemeOptions = createTheme({
             main: '#414141'
         },
         nonary: {
-            main: '#000'
+            main: '#CACACA'
         },
         denary: {
-            main: '#000'
+            main: '#ff3c00'
         }
     },
 });

@@ -3,7 +3,7 @@ import {useUserContext} from "../../../pages/user/[uniqueId]";
 import {Box} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
-import Avatar from "../../UserTopSide/Avatar";
+import Avatar from "../../User/Avatar";
 import {defaultAvatar, defaultBgImage} from "../../../constants/main";
 import UserTitles from "./UserTitles";
 
@@ -32,15 +32,15 @@ const TopSide:FC = () => {
     const user = useUserContext();
 
     const outBg = () => {
-        if(user.data.bg){
-            return user.data.bg;
+        if(user.data!.bg){
+            return user.data!.bg;
         }
         return defaultBgImage;
     }
 
     const outAvatar = () => {
-        if(user.data.avatar){
-            return user.data.avatar;
+        if(user.data!.avatar){
+            return user.data!.avatar;
         }
         return defaultAvatar;
     }

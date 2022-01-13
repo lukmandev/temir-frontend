@@ -10,7 +10,9 @@ const useStyles = makeStyles({
 });
 
 
-const GlobaStyles = () => {
+const GlobalStyles = ():null => {
     const styles = useStyles();
     return null
 }
+
+export default GlobalStyles;

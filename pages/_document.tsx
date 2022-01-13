@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
         </Head>
         <body>
           <Main />
@@ -30,6 +30,7 @@ MyDocument.getInitialProps = async (ctx) => {
   const sheets = new ServerStyleSheets();
     ctx.renderPage = () =>
       originalRenderPage({
+          // @ts-ignore
         enhanceApp: (App) => (props) => sheets.collect(<App emotionCache={cache} {...props} />),
       });
 

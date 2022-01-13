@@ -38,11 +38,11 @@ const UserTitles:FC = () => {
 
     return (
         <Box className={clsx(styles.box, {dark: isDarkMode})}>
-            <Typography textAlign="center" className={clsx(styles.title, {dark: isDarkMode})} fontSize={media(16, 18)} fontWeight="600">
-                Dastan Shermatov Rakymovich
+            <Typography textAlign="center" className={clsx(styles.title, {dark: isDarkMode})} fontSize={media(18, 22)} fontWeight="600">
+                {user.data?.fullname ? user.data.fullname : "There is no fullname"}
             </Typography>
-            <Typography textAlign="center" className={clsx(styles.title, {dark: isDarkMode})} fontSize={media(12, 14)} fontWeight="400">
-                Full-stack developer
+            <Typography textAlign="center" className={clsx(styles.title, {dark: isDarkMode})} fontSize={media(13, 17)} fontWeight="400">
+                {user.data?.position ? user.data.position : "There is no position"}
             </Typography>
         </Box>
     )

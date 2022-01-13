@@ -8,24 +8,21 @@ import '../utility/modules';
 import createEmotionCache from '../utility/createEmotionCache';
 import {theme} from "../utility/theme";
 import {setupStore} from "../store/reducer";
-import '../assets/styles/ABHAYA_LIBRE.css';
-import '../assets/styles/ALLERTA_STENCIL.css';
-import '../assets/styles/ANTON.css';
-import '../assets/styles/BAUHAUS_93.css';
-import '../assets/styles/BLACK_OPS_ONE.css';
-import '../assets/styles/CALLIGRAFFITTI.css';
-import '../assets/styles/CASTELLAR.css';
-import '../assets/styles/BELLOTA_TEXT.css';
+import GlobalStyles from "../components/global/Styles";
+import ShareModal from "../components/ShareModal";
+import LoginModal from "../components/LoginModal";
+import Loading from "../components/global/Loading";
+import OnceActions from "../components/global/OnceActions";
 
-interface MyAppProps extends AppProps {
-  emotionCache?: EmotionCache;
+export interface MyAppProps extends AppProps {
+    emotionCache?: EmotionCache;
 }
 
 const clientSideEmotionCache = createEmotionCache();
 
-const store = setupStore();
+export const store = setupStore();
 
-const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
+const MyApp: React.FunctionComponent<MyAppProps> = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
@@ -34,6 +31,11 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
           <StoreProvider store={store}>
               <CssBaseline />
               <Component {...pageProps} />
+              <GlobalStyles />
+              <ShareModal />
+              <LoginModal />
+              <Loading />
+              <OnceActions />
           </StoreProvider>
       </ThemeProvider>
     </CacheProvider>

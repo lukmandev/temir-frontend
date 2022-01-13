@@ -1,6 +1,7 @@
 import api from "../http/api";
 import {ERRORS} from "../constants/errors";
 import {User} from "../models/user";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 
 
 export interface fetchUserInterface {
@@ -37,3 +38,16 @@ export const fetchUser = async (uniqueId: string | string[] | undefined) => {
     }
     return result;
 }
+
+export const forgotPassword = createAsyncThunk(
+    'user/forgot-password',
+    async (uniqueId:string, {dispatch}) => {
+        try {
+            const {data} = await api.post('users/reset-password/', {uniqueId});
+        } catch (e){
+
+        } finally {
+
+        }
+    }
+)

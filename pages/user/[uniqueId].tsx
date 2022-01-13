@@ -9,6 +9,7 @@ import clsx from "clsx";
 import {useSelector} from "react-redux";
 import {selectIsDarkMode} from "../../store/selector/main";
 import {useRouter} from "next/router";
+import BottomSide from "../../components/pages/user/BottomSide";
 
 
 export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
@@ -20,7 +21,12 @@ export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
     }
 }
 
-const UserContext = createContext({});
+const UserContext = createContext<fetchUserInterface>({
+    success: false,
+    data: null,
+    error: null,
+    notFound: false
+});
 
 export const useUserContext = () => useContext(UserContext);
 
@@ -60,8 +66,9 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
         <UserContext.Provider value={userInfo}>
             {/*<Preload isRemove={isRemove} />*/}
             <Container disableGutters maxWidth={false} className={clsx(styles.containedFluid, {dark: isDarkMode})}>
-                <Container maxWidth="md" disableGutters>
+                <Container maxWidth="sm" disableGutters>
                     <TopSide />
+                    <BottomSide />
                 </Container>
             </Container>
         </UserContext.Provider>
