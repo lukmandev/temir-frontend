@@ -3,12 +3,13 @@ import {Box, FormControl, Input, InputLabel, TextField, Theme, Typography} from 
 import {useField} from "formik";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../utility/media";
+import clsx from "clsx";
 
 
 interface Props {
     name: string;
     id: string;
-    [key:string]:string;
+    [key:string]:any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,13 +34,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const BaseInput:FC<Props> = (props:Props) => {
+const BaseInput:FC<Props> = ({classes, ...props}:Props) => {
     const styles = useStyles();
     const [field, meta] = useField(props.name);
+
     return (
         <Box sx={{width: '100%'}}>
             {!!props.label && <label htmlFor={props.id} className={styles.label}>{props.label}</label>}
-            <input className={styles.input} {...field} {...props} />
+            <input className={clsx(styles.input, classes)} {...field} {...props} />
             {!!(meta.touched && meta.error) && (
                 <Typography fontSize={media(16, 18)} fontWeight="400" className={styles.errorText}>
                     {meta.error}

@@ -14,10 +14,13 @@ import {useRouter} from "next/router";
 // @ts-ignore
 import hex2rgba from "hex2rgba";
 import CloseIcon from "@mui/icons-material/Close";
+import clsx from "clsx";
+import {forgotPassword} from "../actions/user";
+import {setLoading} from "../store/reducers/main";
 
 const useStyles = makeStyles((theme:Theme) => ({
     modal: {
-        maxWidth: 350,
+        maxWidth: 400,
         width: '100%',
         background: '#585858',
         borderRadius: 15,
@@ -56,10 +59,16 @@ const useStyles = makeStyles((theme:Theme) => ({
         background: theme.palette.secondary.main,
         padding: `${media(3, 5)} ${media(15, 20)}`,
     },
+    button: {
+        '&:hover': {
+            color: theme.palette.primary.main,
+            background: theme.palette.secondary.main,
+        }
+    },
     closeBtn: {
         position: 'absolute',
-        right: 10,
-        top: 10,
+        right: 5,
+        top: 5,
     },
     closeIcon: {
         fontSize: media(20, 22),
@@ -86,7 +95,13 @@ const LoginModal:FC = () => {
         dispatch(setLoginModalActive(false));
     }
 
-    const handleForgotPassword = () => {
+    const handleForgotPassword = async () => {
+        dispatch(setLoading(true));
+        const result = await dispatch(forgotPassword(authState.uniqueIdForLogin)).unwrap();
+        dispatch(setLoading(false));
+        if(!result.success && result.error){
+            router.push('/500');
+        }
         dispatch(setUniqueIdForLogin(""));
         dispatch(setLoginModalActive(false));
     }
@@ -118,8 +133,8 @@ const LoginModal:FC = () => {
                         <form className={styles.form} onSubmit={formik.handleSubmit}>
                             <Loading fontSize={media(12, 14)} bg={hex2rgba('#585858', 0.7)} active={formik.isSubmitting} />
                             <BaseInput id="login-password" name="password" placeholder="Enter your password" />
-                            <Button className={styles.forgotPasswordBtn}>Forgot Password ?</Button>
-                            <Button className={styles.sendBtn} type="submit">LOGIN</Button>
+                            <Button className={clsx(styles.forgotPasswordBtn, styles.button)} onClick={handleForgotPassword}>Forgot Password ?</Button>
+                            <Button className={clsx(styles.sendBtn, styles.button)} type="submit">LOGIN</Button>
                             {!!formik.status && (
                                 <Typography fontSize={media(15, 18)} fontWeight="500" color="red">
                                     {formik.status}

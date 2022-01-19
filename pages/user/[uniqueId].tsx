@@ -1,4 +1,4 @@
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
+import {InferGetServerSidePropsType, GetServerSidePropsContext} from 'next'
 import {createContext, useContext, useEffect, useState} from "react";
 import {fetchUser, fetchUserInterface} from "../../actions/user";
 import Preload from "../../components/Preload";
@@ -10,6 +10,8 @@ import {useSelector} from "react-redux";
 import {selectIsDarkMode} from "../../store/selector/main";
 import {useRouter} from "next/router";
 import BottomSide from "../../components/pages/user/BottomSide";
+import Head from "next/head";
+import {fonts} from "../../constants/fonts";
 
 
 export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
@@ -33,11 +35,14 @@ export const useUserContext = () => useContext(UserContext);
 const useStyles = makeStyles((theme:Theme) => ({
     containedFluid: {
         background: theme.palette.secondary.main,
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         '&.dark': {
             background: theme.palette.primary.main,
         }
     },
-
 }));
 
 const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -64,7 +69,12 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
 
     return (
         <UserContext.Provider value={userInfo}>
-            {/*<Preload isRemove={isRemove} />*/}
+            <Head>
+                {fonts[userInfo.data.fontFamily].link}
+                <meta name="title" content="Hello World" />
+                <title>{userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}</title>
+            </Head>
+            <Preload isRemove={isRemove} />
             <Container disableGutters maxWidth={false} className={clsx(styles.containedFluid, {dark: isDarkMode})}>
                 <Container maxWidth="sm" disableGutters>
                     <TopSide />

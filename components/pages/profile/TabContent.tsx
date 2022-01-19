@@ -1,0 +1,269 @@
+import {FC} from "react";
+import {Box, Button, FormControl, MenuItem, Select, Theme, Typography} from "@mui/material";
+import Head from 'next/head'
+import {makeStyles, useTheme} from "@mui/styles";
+import {Formik} from 'formik';
+import {media} from "../../../utility/media";
+import useProfileActions from "../../../hooks/profile";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {selectAuth} from "../../../store/selector/auth";
+import {fonts} from "../../../constants/fonts";
+import BaseInput from "../../Form/BaseInput";
+import BaseButton from "../../Form/BaseButton";
+import * as yup from 'yup';
+import {User, UserModel} from "../../../models/user";
+import Loading from "../../Form/Loading";
+// @ts-ignore
+import hex2rgba from "hex2rgba";
+import {checkTheDifference, outValues, saveValues, socials} from "../../../utility/form";
+import {updateProfile} from "../../../actions/user";
+
+
+const useContactsStyles = makeStyles((theme:Theme) => ({
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        gridRowGap: media(25, 40),
+
+        padding: `${media(15, 20)} 0`,
+    },
+    button: {
+        width: '100%',
+        fontSize: media(14, 16),
+        fontWeight: 700,
+        background: theme.palette.secondary.main,
+        color: theme.palette.primary.main,
+        textTransform: 'none',
+        '&:hover': {
+            background: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
+        }
+    }
+}));
+
+export const ContactsInfo:FC = () => {
+    const styles = useContactsStyles();
+    const profileActions = useProfileActions();
+
+    return (
+        <Box className={styles.wrapper}>
+            {Object.entries(profileActions).filter((el, i) => i !==0).map((elem:any) => (
+                <Button onClick={elem[1].handleOpenModal} key={elem[0]} className={styles.button}>{elem[1].title}</Button>
+            ))}
+        </Box>
+    )
+}
+
+
+const useWorkInfoStyles = makeStyles((theme:Theme) => ({
+    wrapper: {
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
+    },
+    form: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gridRowGap: media(15, 20),
+
+        position: 'relative'
+    },
+    select: {
+        '&, & svg': {
+            color: theme.palette.secondary.main,
+        },
+    },
+    menu: {
+        background: '#676767!important'
+    },
+    menuItem: {
+        color: theme.palette.secondary.main,
+    },
+    button: {
+        padding: `${media(4, 7)} ${media(30, 40)}`,
+    }
+}));
+
+
+const workInfoValidationSchema = yup.object({
+    fontFamily: yup.string(),
+    title: yup.string()
+        .max(UserModel.title.max, `Title must be equal or less than ${UserModel.title.max}`),
+    subtitle: yup.string()
+        .max(UserModel.subtitle.max, `Subtitle must be equal or less than ${UserModel.subtitle.max}`)
+})
+
+export const WorkInfo:FC = () => {
+    const styles = useWorkInfoStyles();
+    const authState = useAppSelector(selectAuth);
+    const dispatch = useAppDispatch();
+    const theme:Theme = useTheme();
+
+    const initialValues = {
+        fontFamily: authState.profile.fontFamily,
+        title: authState.profile.title,
+        subtitle: authState.profile.subtitle,
+        description: authState.profile.description,
+        address: authState.profile.address
+    }
+
+    return (
+        <Box className={styles.wrapper}>
+            <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                validationSchema={workInfoValidationSchema}
+                onSubmit={async (values, actions) => {
+                    const difference = checkTheDifference(initialValues, values);
+                    if(!difference.isChanged){
+                        actions.setStatus("Nothing is changed");
+                        actions.setSubmitting(false);
+                        return;
+                    }
+                    const result = await dispatch(updateProfile({uniqueId: authState.profile.uniqueId, ...values})).unwrap();
+                    if(!result.success){
+                        actions.setStatus(result.message);
+                    }
+                    actions.setSubmitting(false);
+                }}
+            >
+                {(formik) => (
+                    <form onSubmit={formik.handleSubmit} className={styles.form}>
+                        <Loading fontSize={media(16, 18)} bg={hex2rgba(theme.palette.primary.main, 0.7)} active={formik.isSubmitting} />
+                        <Head>
+                            {fonts[formik.values.fontFamily].link}
+                        </Head>
+                        <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                                <Select
+                                    className={styles.select}
+                                    value={formik.values.fontFamily}
+                                    onChange={formik.handleChange}
+                                    name="fontFamily"
+                                    label="Font Family"
+                                    MenuProps={{classes: {paper: styles.menu}}}
+                                >
+                                    {Object.entries(fonts).map((elem, i) => (
+                                        <MenuItem className={styles.menuItem} key={elem[0]} value={elem[0]}>{elem[1].fontFamily}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <BaseInput style={{fontFamily: fonts[formik.values.fontFamily].fontFamily}} name="title" id="title" />
+                        <BaseInput name="subtitle" id="subtitle" />
+                        <BaseInput name="description" id="description" />
+                        <BaseInput name="address" id="address" />
+                        <BaseButton classes={styles.button} type="submit">Save</BaseButton>
+                        {!!formik.status && (
+                            <Typography fontSize={media(14, 16)} fontWeight="500" color="secondary">
+                                {formik.status}
+                            </Typography>
+                        )}
+                    </form>
+                )}
+            </Formik>
+        </Box>
+    )
+}
+
+
+const websiteRegex = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
+
+const socialsValidationSchema = yup.object({
+    whatsapp: yup.string(),
+    instagram: yup.string(),
+    facebook: yup.string()
+        .matches(websiteRegex, "Enter url to facebook"),
+    linkedin: yup.string()
+        .matches(websiteRegex, "Enter url to facebook"),
+    youtube: yup.string()
+        .matches(websiteRegex, "Enter url to facebook"),
+    telegram: yup.string(),
+    snapchat: yup.string(),
+    tiktok: yup.string(),
+    twitter: yup.string(),
+});
+
+
+const useSocialsStyles = makeStyles((theme:Theme) => ({
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+        gridRowGap: media(10, 15),
+        position: 'relative',
+    },
+    icon: {
+        color: theme.palette.secondary.main,
+        fontSize: media(22, 24)
+    },
+    fieldItem: {
+        display: 'flex',
+        gridColumnGap: media(7, 10),
+        alignItems: 'center',
+    }
+}));
+
+
+export const Socials:FC = () => {
+    const styles = useSocialsStyles();
+    const dispatch = useAppDispatch();
+    const authState = useAppSelector(selectAuth);
+    const theme:Theme = useTheme();
+
+    const outInitialValues = () => {
+        const pickFields = ({instagram, facebook, tiktok, whatsapp, linkedin, telegram, snapchat, twitter, youtube}:User) => ({instagram, facebook, tiktok, whatsapp, linkedin, telegram, snapchat, twitter, youtube});
+        return outValues(pickFields(authState.profile));
+    }
+
+    return (
+        <Formik
+            initialValues={outInitialValues()}
+            validationSchema={socialsValidationSchema}
+            onSubmit={async (values, actions) => {
+                actions.setStatus("");
+                const difference = checkTheDifference(outInitialValues(), values);
+                if(!difference.isChanged){
+                    actions.setStatus("Nothing is changed");
+                }else{
+                    const turnedValues = saveValues(difference.changedValues);
+                    const result = await dispatch(updateProfile({
+                        uniqueId: authState.profile.uniqueId,
+                        ...turnedValues
+                    })).unwrap();
+                    if(!result.success){
+                        actions.setStatus(result.message);
+                    }
+                }
+                actions.setSubmitting(true);
+            }}
+        >
+            {(formik) => (
+                <form onSubmit={formik.handleSubmit} className={styles.form}>
+                    <Loading fontSize={media(18, 20)} bg={hex2rgba(theme.palette.primary.main, 0.7)} active={formik.isSubmitting} />
+                    {Object.entries(socials).map((elem, i) => {
+                        const Icon = elem[1].icon;
+                        return (
+                            <Box key={i} className={styles.fieldItem}>
+                                <Icon className={styles.icon} />
+                                <BaseInput name={elem[0]} id={elem[0]} placeholder={elem[1].placeholder} />
+                            </Box>
+                        )
+                    }
+                    )}
+                    <BaseButton type="submit">Save</BaseButton>
+                    {!!formik.status && (
+                        <Typography textAlign="center" fontSize={media(16, 18)} fontWeight="500" color="secondary">
+                            {formik.status}
+                        </Typography>
+                    )}
+                </form>
+            )}
+        </Formik>
+    )
+}
+

@@ -32,17 +32,11 @@ const TopSide:FC = () => {
     const user = useUserContext();
 
     const outBg = () => {
-        if(user.data!.bg){
-            return user.data!.bg;
-        }
-        return defaultBgImage;
+        return user.data.bg ? user.data.bg : defaultBgImage;
     }
 
     const outAvatar = () => {
-        if(user.data!.avatar){
-            return user.data!.avatar;
-        }
-        return defaultAvatar;
+        return user.data.avatar ? user.data.avatar : defaultAvatar;
     }
     return (
         <Box className={styles.topSideBox}>

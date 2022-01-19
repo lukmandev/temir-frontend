@@ -13,6 +13,7 @@ import ShareModal from "../components/ShareModal";
 import LoginModal from "../components/LoginModal";
 import Loading from "../components/global/Loading";
 import OnceActions from "../components/global/OnceActions";
+import SimpleModal from "../components/SimpleModal";
 
 export interface MyAppProps extends AppProps {
     emotionCache?: EmotionCache;
@@ -34,6 +35,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props: MyAppProps) => {
               <GlobalStyles />
               <ShareModal />
               <LoginModal />
+              <SimpleModal />
               <Loading />
               <OnceActions />
           </StoreProvider>

@@ -1,4 +1,4 @@
-import {FC, Key, ReactChild, ReactFragment, ReactNode, ReactPortal, useMemo} from "react";
+import {FC, Key, useMemo} from "react";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
 import {Box, FormControl, Input, InputLabel, Link as MuiLink, Theme, Typography} from "@mui/material";
 import {outContactsInfo, socialsOut} from "../../../constants/main";
@@ -7,6 +7,8 @@ import {useAppSelector} from "../../../hooks/redux";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import clsx from "clsx";
 import {media} from "../../../utility/media";
+import {fonts} from "../../../constants/fonts";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
 const useContactsStyles = makeStyles((theme: Theme) => ({
@@ -55,7 +57,7 @@ export const ContactsInfo: FC = () => {
     }, []);
     return (
         <form className={styles.form}>
-            {userInfo.map((elem, i) => (
+            {userInfo.length ? userInfo.map((elem, i) => (
                 <MuiLink underline="none" key={i} href={elem.link}>
                     <FormControl variant="standard">
                         <InputLabel className={clsx(styles.label, {dark: isDarkMode})}
@@ -64,30 +66,79 @@ export const ContactsInfo: FC = () => {
                                value={elem.value} readOnly/>
                     </FormControl>
                 </MuiLink>
-            ))}
+            )) : null}
         </form>
     )
 }
 
 
-const useWorkInfoStyles = makeStyles({
+interface workInfoStylesProps{
+    fontFamily: string;
+}
+
+
+const useWorkInfoStyles = makeStyles((theme:Theme) => ({
     wrapper: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
         padding: `${media(7, 10)} 0`,
+        overflow: 'hidden'
+    },
+    workInfoTitle: {
+        color: theme.palette.primary.main,
+        '&.dark': {
+            color: theme.palette.secondary.main,
+        }
+    },
+    title: (props:workInfoStylesProps) => ({
+        fontFamily: props.fontFamily
+    }),
+    subtitle: {
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word',
+        margin: `${media(15, 25)} 0 ${media(22, 25)}`,
+    },
+    description: {
+        wordWrap: 'break-word',
+        overflowWrap: 'break-word'
+    },
+    addressBox: {
+        display: 'flex',
+        alignItems: 'center',
+        gridColumnGap: media(5, 8),
+        marginTop: media(22, 25),
+    },
+    addressIcon: {
+        fontSize: media(20, 22),
     }
-});
+}));
 
+const workInfoTitleFontSize = media(14, 16);
 
 export const WorkInfo: FC = () => {
-    const styles = useWorkInfoStyles();
+    const {data} = useUserContext();
+    const isDarkMode = useAppSelector(selectIsDarkMode);
+    const styles = useWorkInfoStyles({fontFamily: fonts[data.fontFamily].fontFamily});
+
     return (
         <Box className={styles.wrapper}>
-            <Typography>
-                Your Company Name
+            <Typography textAlign="center" component="h1" fontSize={media(23, 28)} fontWeight="400" className={clsx(styles.title, styles.workInfoTitle, {dark: isDarkMode})}>
+                {data.title ? data.title : "User hasnt write anything"}
             </Typography>
+            <Typography component="p" fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.subtitle, styles.workInfoTitle, {dark: isDarkMode})}>
+                {data.subtitle ? data.subtitle : "User hasnt write anything"}
+            </Typography>
+            <Typography component="p" fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.description, styles.workInfoTitle, {dark: isDarkMode})}>
+                {data.description ? data.description : "User hasnt write anything"}
+            </Typography>
+            <Box className={styles.addressBox}>
+                <LocationOnIcon className={clsx(styles.addressIcon, styles.workInfoTitle, {dark: isDarkMode})} />
+                <Typography fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.workInfoTitle, {dark: isDarkMode})}>
+                    {data.address ? data.address : "User hasnt write anything"}
+                </Typography>
+            </Box>
         </Box>
     )
 }
@@ -159,7 +210,7 @@ export const Socials: FC = () => {
             )
         }
         return socials.map((elem: { link: string; label: string; color:string; icon: any }, i: Key) => (
-            <MuiLink underline="none" className={styles.link} key={i} href={elem.link}>
+            <MuiLink target="_blank" underline="none" className={styles.link} key={i} href={elem.link}>
                 <Box sx={{background: elem.color}} className={clsx(styles.iconBox, {dark: isDarkMode})}>
                     <elem.icon className={styles.icon} />
                 </Box>

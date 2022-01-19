@@ -1,5 +1,5 @@
-import {FC, SyntheticEvent, ReactNode} from "react";
-import UserTabs from "../../Tabs";
+import {FC, SyntheticEvent} from "react";
+import {TabContent, UserTabs} from "../../User/Tabs";
 import {selectSelectedTab} from "../../../store/selector/user";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {setSelectedTab} from "../../../store/reducers/user";
@@ -7,18 +7,18 @@ import {Box, Button, Theme} from "@mui/material";
 import ChangeMode from "./ChangeMode";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
-import {userTabContent} from "../../../constants/main";
+import {userTabContent, userTabList} from "../../../constants/main";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import clsx from "clsx";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
 import {setLoginModalActive, setUniqueIdForLogin} from "../../../store/reducers/auth";
+import {styles} from "../../User/styles";
 
 
 
 const useStyles = makeStyles((theme:Theme) => ({
     content: {
-        minHeight: 430,
-        padding: `${media(15, 20)} ${media(13, 18)}`,
+        ...styles.content,
     },
     bottomButtonsBox: {
         display: 'grid',
@@ -38,24 +38,6 @@ const useStyles = makeStyles((theme:Theme) => ({
     }
 }));
 
-
-interface TabContentProps{
-    id: number;
-    children: ReactNode;
-}
-
-
-const TabContent:FC<TabContentProps> = ({children, id}:TabContentProps) => {
-    const selectedTab = useAppSelector(selectSelectedTab);
-    if(selectedTab !== id){
-        return null;
-    }
-    return (
-        <>
-            {children}
-        </>
-    )
-}
 
 
 const BottomSide:FC = () => {
@@ -82,7 +64,7 @@ const BottomSide:FC = () => {
             <UserTabs value={selectedTab} onChange={handleTabChange} />
             <Box className={styles.content}>
                 {userTabContent.map((elem) => (
-                    <TabContent key={elem.id} id={elem.id}>
+                    <TabContent selectedTab={selectedTab} key={elem.id} id={elem.id}>
                         <elem.content />
                     </TabContent>
                 ))}

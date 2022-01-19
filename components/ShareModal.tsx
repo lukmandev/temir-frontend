@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme:Theme) => ({
         gridColumnGap: media(10, 15),
         gridRowGap: media(10, 15),
         padding: `${media(45, 60)} ${media(10, 18)}`,
+        outline: 'none',
+        border: 'none',
     },
     shareIconBox: {
         width: media(45, 55),

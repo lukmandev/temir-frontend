@@ -32,3 +32,16 @@ export interface User{
     "description": string | null,
     "address": string | null
 }
+
+export const UserModel = {
+    password: {
+        min: 6,
+        max: 100,
+    },
+    title: {
+        max: 200,
+    },
+    subtitle: {
+        max: 200,
+    },
+}

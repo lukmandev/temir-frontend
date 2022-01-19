@@ -66,7 +66,7 @@ export const check = createAsyncThunk(
         try {
             const {data} = await api.post('users/check/', {refresh});
             localStorage.setItem('access', data.access);
-            localStorage.setItem('refresh', data.access);
+            localStorage.setItem('refresh', data.refresh);
             dispatch(setProfile(data.profile));
             dispatch(setAuth(true));
         } catch (e){
