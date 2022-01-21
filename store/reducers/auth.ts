@@ -12,6 +12,10 @@ type SliceState = {
     modalWithFormActive: boolean;
     modalWithFormData: string;
     selectedTab: number;
+    imageUploadModalActive: boolean;
+    imageUploadModalData: any;
+    imageResizeModalActive: boolean,
+    imageResizeModalData: any,
 }
 
 const initialState: SliceState = {
@@ -22,7 +26,14 @@ const initialState: SliceState = {
     uniqueIdForLogin: "",
     modalWithFormActive: false,
     modalWithFormData: "",
-    selectedTab: profileTabContent[0].id
+    selectedTab: profileTabContent[0].id,
+    imageUploadModalActive: false,
+    imageUploadModalData: {
+        key: null,
+        data: null,
+    },
+    imageResizeModalActive: false,
+    imageResizeModalData: null,
 }
 
 const auth = createSlice({
@@ -52,7 +63,19 @@ const auth = createSlice({
         },
         setSelectedTab(state, action: PayloadAction<number>){
             state.selectedTab = action.payload;
-        }
+        },
+        setImageUploadModalActive(state, action: PayloadAction<boolean>){
+            state.imageUploadModalActive = action.payload;
+        },
+        setImageUploadModalData(state, action: PayloadAction<any>){
+            state.imageUploadModalData = action.payload;
+        },
+        setImageResizeModalActive(state, action: PayloadAction<boolean>){
+            state.imageResizeModalActive = action.payload;
+        },
+        setImageResizeModalData(state, action: PayloadAction<any>){
+            state.imageResizeModalData = action.payload;
+        },
     },
 })
 
@@ -64,7 +87,11 @@ export const {
     setUniqueIdForLogin,
     setModalWithFormActive,
     setModalWithFormData,
-    setSelectedTab
+    setSelectedTab,
+    setImageResizeModalActive,
+    setImageResizeModalData,
+    setImageUploadModalActive,
+    setImageUploadModalData,
 } = auth.actions;
 
 export default auth.reducer;

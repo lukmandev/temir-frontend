@@ -6,7 +6,7 @@ import {setModalWithFormActive} from "../../../store/reducers/auth";
 import {makeStyles} from "@mui/styles";
 import {Formik} from 'formik';
 import {media} from "../../../utility/media";
-import useProfileActions from "../../../hooks/profile";
+import {useProfileInfoActions} from "../../../hooks/profile";
 import BaseInput from "../../Form/BaseInput";
 import BaseButton from "../../Form/BaseButton";
 import Loading from "../../Form/Loading";
@@ -49,7 +49,7 @@ const ModalWithForm:FC = () => {
     const styles = useStyles();
     const authState = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
-    const profileActions = useProfileActions();
+    const profileActions = useProfileInfoActions();
     const currentData = profileActions[authState.modalWithFormData];
 
     const handleClose = () => {

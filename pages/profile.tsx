@@ -4,7 +4,13 @@ import ModalWithForm from "../components/pages/profile/ModalWithForm";
 import {NextPage} from "next";
 import {SyntheticEvent, useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {setModalWithFormActive, setModalWithFormData, setSelectedTab} from "../store/reducers/auth";
+import {
+    setImageUploadModalActive,
+    setImageUploadModalData,
+    setModalWithFormActive,
+    setModalWithFormData,
+    setSelectedTab
+} from "../store/reducers/auth";
 import {makeStyles} from "@mui/styles";
 import {media} from "../utility/media";
 import Avatar from "../components/User/Avatar";
@@ -15,7 +21,8 @@ import {UserTabs, TabContent} from "../components/User/Tabs";
 import {profileTabContent} from "../constants/profile";
 import {styles} from "../components/User/styles";
 import Head from "next/head";
-import useProfileActions from "../hooks/profile";
+import {useProfileInfoActions} from "../hooks/profile";
+import UploadPhotoModal from "../components/pages/profile/UploadPhotoModal";
 
 
 const useStyles = makeStyles((theme:Theme) => ({
@@ -60,7 +67,7 @@ const Profile:NextPage = () => {
     const styles = useStyles();
     const dispatch = useAppDispatch();
     const authState = useAppSelector(selectAuth);
-    const {INFO} = useProfileActions();
+    const {INFO} = useProfileInfoActions();
 
     useEffect(() => {
 
@@ -82,6 +89,15 @@ const Profile:NextPage = () => {
         dispatch(setSelectedTab(newValue));
     }
 
+    const handleOpenBgUploadModal = () => {
+        dispatch(setImageUploadModalData({key: 'BG', data: null}));
+        dispatch(setImageUploadModalActive(true));
+    }
+
+    const handleOpenAvatarUploadModal = () => {
+        dispatch(setImageUploadModalData({key: 'AVATAR', data: [{avatar: null}]}));
+        dispatch(setImageUploadModalActive(true));
+    }
 
     return (
         <Container maxWidth={false} disableGutters className={styles.containerFluid}>
@@ -90,14 +106,15 @@ const Profile:NextPage = () => {
                 <meta name="title" content="Edit Profile" />
             </Head>
             <ModalWithForm />
+            <UploadPhotoModal />
             <Container maxWidth="sm" disableGutters>
                 <Box className={styles.topSideBox}>
                     <Box className={styles.bgBox} style={{backgroundImage: `url(${outBg()})`}}>
-                        <DarkButton>Edit background</DarkButton>
+                        <DarkButton onClick={handleOpenBgUploadModal}>Edit background</DarkButton>
                         <Box className={styles.avatarHolder}>
                             <Avatar img={outAvatar()} />
                         </Box>
-                        <DarkButton>Edit avatar</DarkButton>
+                        <DarkButton onClick={handleOpenAvatarUploadModal}>Edit avatar</DarkButton>
                     </Box>
                     <Box className={styles.editUserInfoBox}>
                         <DarkButton onClick={INFO.handleOpenModal}>Edit name and position</DarkButton>

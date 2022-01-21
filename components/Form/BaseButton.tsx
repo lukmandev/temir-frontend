@@ -27,7 +27,7 @@ const BaseButton:FC<Button> = ({children, classes, ...props}: Button) => {
     const styles = useStyles();
 
     return (
-        <Button className={clsx(styles.button, props.classes)} {...props}>{children}</Button>
+        <Button className={clsx(styles.button, classes)} {...props}>{children}</Button>
     )
 }
 

@@ -71,7 +71,10 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
         <UserContext.Provider value={userInfo}>
             <Head>
                 {fonts[userInfo.data.fontFamily].link}
-                <meta name="title" content="Hello World" />
+                <meta name="title" content={userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId} />
+                {!!userInfo.data.description && (
+                    <meta name="description" content={userInfo.data.description} />
+                )}
                 <title>{userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}</title>
             </Head>
             <Preload isRemove={isRemove} />

@@ -4,7 +4,7 @@ import Head from 'next/head'
 import {makeStyles, useTheme} from "@mui/styles";
 import {Formik} from 'formik';
 import {media} from "../../../utility/media";
-import useProfileActions from "../../../hooks/profile";
+import {useProfileInfoActions} from "../../../hooks/profile";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {selectAuth} from "../../../store/selector/auth";
 import {fonts} from "../../../constants/fonts";
@@ -17,6 +17,7 @@ import Loading from "../../Form/Loading";
 import hex2rgba from "hex2rgba";
 import {checkTheDifference, outValues, saveValues, socials} from "../../../utility/form";
 import {updateProfile} from "../../../actions/user";
+import {websiteRegex} from "../../../constants/regex";
 
 
 const useContactsStyles = makeStyles((theme:Theme) => ({
@@ -45,7 +46,7 @@ const useContactsStyles = makeStyles((theme:Theme) => ({
 
 export const ContactsInfo:FC = () => {
     const styles = useContactsStyles();
-    const profileActions = useProfileActions();
+    const profileActions = useProfileInfoActions();
 
     return (
         <Box className={styles.wrapper}>
@@ -171,8 +172,6 @@ export const WorkInfo:FC = () => {
     )
 }
 
-
-const websiteRegex = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
 
 const socialsValidationSchema = yup.object({
     whatsapp: yup.string(),

@@ -1,12 +1,16 @@
 import {useAppDispatch, useAppSelector} from "./redux";
 import {updateProfile} from "../actions/user";
 import {selectAuth} from "../store/selector/auth";
-import {setModalWithFormActive, setModalWithFormData} from "../store/reducers/auth";
+import {
+    setImageUploadModalActive,
+    setImageUploadModalData,
+    setModalWithFormActive,
+    setModalWithFormData
+} from "../store/reducers/auth";
 import * as yup from 'yup';
 import {UserModel} from "../models/user";
+import {websiteRegex} from "../constants/regex";
 
-
-const websiteRegex = /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/;
 
 type FormikValues = {
     [key:string]: string;
@@ -47,7 +51,7 @@ const passwordValidationSchema = yup.object({
         .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
-const useProfileActions = ():any => {
+export const useProfileInfoActions = ():any => {
     const dispatch = useAppDispatch();
     const authState = useAppSelector(selectAuth);
 
@@ -175,4 +179,54 @@ const useProfileActions = ():any => {
 }
 
 
-export default useProfileActions;
+const outDataFromResizeModal = (data:any) => {
+    if(!data) return [{
+        name: "avatar"
+    }];
+    return Object.entries(data).map((elem) => ({
+        name: elem[0],
+        value: elem[1],
+    }));
+}
+
+type ValuesType = {
+    [key:string]:string;
+}
+
+export const useProfilePhotoActions = () => {
+    const dispatch = useAppDispatch();
+    const {profile} = useAppSelector(selectAuth);
+
+    const handleBGFormSubmit = async (values:ValuesType, actions:any) => {
+        actions.setSubmitting(true);
+        const result = await dispatch(updateProfile({uniqueId: profile.uniqueId, ...values})).unwrap();
+        if(!result.success){
+            actions.setStatus(result.message);
+        }
+        actions.setSubmitting(false);
+    }
+
+    const handleAvatarWithoutLTRBSubmit = async (values:ValuesType, actions:any) => {
+
+    }
+
+    const handleAvatarWithLTRBSubmit = async (values:ValuesType, actions:any) => {
+
+    }
+
+    return {
+        'AVATAR': (dataFromResizeModal:any=null) => ({
+            fields: [
+                ...outDataFromResizeModal(dataFromResizeModal),
+            ],
+            handleAvatarWithLTRBSubmit,
+            handleAvatarWithoutLTRBSubmit,
+        }),
+        'BG': () => ({
+            fields: [{
+                name: "bg"
+            }],
+            handleSubmit: handleBGFormSubmit,
+        }),
+    }
+}

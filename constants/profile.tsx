@@ -21,3 +21,14 @@ export const profileTabContent: ProfileTabContentType[] = [
         content: Socials,
     }
 ]
+
+
+type uploadPhotoType = {
+    [key:string]:string;
+}
+
+export const uploadPhotoTypes:uploadPhotoType[] = [
+    {
+
+    }
+]
