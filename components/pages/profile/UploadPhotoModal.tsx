@@ -8,7 +8,9 @@ import BaseButton from "../../Form/BaseButton";
 import {media} from "../../../utility/media";
 import {useProfilePhotoActions} from "../../../hooks/profile";
 import {selectAuth} from "../../../store/selector/auth";
-
+import Loading from "../../Form/Loading";
+// @ts-ignore
+import hex2rgba from "hex2rgba";
 
 
 const useStyles = makeStyles((theme:Theme) => ({
@@ -31,6 +33,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        position: 'relative',
     },
     topBox: {
         width: '100%',
@@ -62,13 +65,14 @@ const UploadPhotoModal:FC = () => {
     const authState = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
     const uploadData:any = useProfilePhotoActions();
-
+    if(!authState.imageUploadModalActive){
+        return null;
+    }
+    const currentField = uploadData[authState.imageUploadModalData.key](authState.imageUploadModalData.data);
 
     const outInitialValues = ():uploadPhotoValuesType => {
         const result:uploadPhotoValuesType = {}
-        console.log(uploadData[authState.imageUploadModalData.key](authState.imageUploadModalData.data))
-        return;
-        uploadData[authState.imageUploadModalData.key](authState.imageUploadModalData.data).fields.forEach((elem:any) => {
+        currentField.fields.forEach((elem:any) => {
             result[elem.name] = elem.value ? elem.value : null;
         });
         return result;
@@ -80,12 +84,8 @@ const UploadPhotoModal:FC = () => {
 
     const handleChange = (setValues:any) => {
         return (e: FormEvent<HTMLInputElement>) => {
-            setValues({name: (e.target as HTMLInputElement).files[0]})
+            setValues({[currentField.mainField]: (e.target as HTMLInputElement).files[0]})
         }
-    }
-
-    if(!authState.imageUploadModalActive){
-        return null;
     }
 
     return (
@@ -93,26 +93,33 @@ const UploadPhotoModal:FC = () => {
             <Box className={styles.modal}>
                 <Formik
                     initialValues={outInitialValues()}
-                    onSubmit={(values, actions) => {
-
-                    }}
+                    validationSchema={currentField.validationSchema}
+                    onSubmit={currentField.handleSubmit}
                 >
                     {(formik) => (
-                        <form className={styles.form} onSubmit={formik.handleSubmit}>
-                            <Box className={styles.topBox}>
-                                <BaseButton classes={styles.selectFileButton} component="label" htmlFor="avatar-image">
-                                    Select a file
+                            <form className={styles.form} onSubmit={formik.handleSubmit}>
+                                <Loading fontSize={media(18, 20)} active={formik.isSubmitting} bg={hex2rgba('#878787', 0.7)} />
+                                <Box className={styles.topBox}>
+                                    <BaseButton classes={styles.selectFileButton} component="label" htmlFor="avatar-image">
+                                        Select a file
+                                    </BaseButton>
+                                    <Typography fontSize={media(12, 15)} fontWeight="600" color="secondary">
+                                        {/*// @ts-ignore*/}
+                                        {formik.values[currentField.mainField] ? formik.values[currentField.mainField].name : "File not selected"}
+                                    </Typography>
+                                    <input accept="image/png, image/gif, image/jpeg" style={{display: 'none'}} name="avatar-image" id="avatar-image" type="file" onChange={handleChange(formik.setValues)}/>
+                                </Box>
+                                <BaseButton type="submit" classes={styles.saveButton}>
+                                    Save
                                 </BaseButton>
-                                <Typography fontSize={media(12, 15)} fontWeight="600" color="secondary">
-                                    File not selected
-                                </Typography>
-                                <input accept="image/png, image/gif, image/jpeg" style={{display: 'none'}} name="avatar-image" id="avatar-image" type="file" onChange={handleChange(formik.setValues)}/>
-                            </Box>
-                            <BaseButton type="submit" classes={styles.saveButton}>
-                                Save
-                            </BaseButton>
-                        </form>
-                    )}
+                                {!!formik.status && (
+                                    <Typography marginTop={media(6, 8)} fontSize={media(16, 18)} fontWeight="500" color="secondary">
+                                        {formik.status}
+                                    </Typography>
+                                )}
+                            </form>
+                        )
+                    }
                 </Formik>
             </Box>
         </Modal>

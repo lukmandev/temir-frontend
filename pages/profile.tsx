@@ -23,6 +23,7 @@ import {styles} from "../components/User/styles";
 import Head from "next/head";
 import {useProfileInfoActions} from "../hooks/profile";
 import UploadPhotoModal from "../components/pages/profile/UploadPhotoModal";
+import ImageResizeModal from "../components/pages/profile/ImageResizeModal";
 
 
 const useStyles = makeStyles((theme:Theme) => ({
@@ -77,6 +78,15 @@ const Profile:NextPage = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if(authState.authInfoLoaded){
+            if(authState.isAuth && !authState.profile.email){
+                dispatch(setModalWithFormData('PERSONAL_EMAIL'));
+                dispatch(setModalWithFormActive(true));
+            }
+        }
+    }, [authState.authInfoLoaded]);
+
     const outBg = () => {
         return authState.profile.bg ? authState.profile.bg : defaultBgImage;
     }
@@ -95,7 +105,7 @@ const Profile:NextPage = () => {
     }
 
     const handleOpenAvatarUploadModal = () => {
-        dispatch(setImageUploadModalData({key: 'AVATAR', data: [{avatar: null}]}));
+        dispatch(setImageUploadModalData({key: 'AVATAR_WITHOUT_LTRB', data: {avatar: null}}));
         dispatch(setImageUploadModalActive(true));
     }
 
@@ -107,6 +117,7 @@ const Profile:NextPage = () => {
             </Head>
             <ModalWithForm />
             <UploadPhotoModal />
+            <ImageResizeModal />
             <Container maxWidth="sm" disableGutters>
                 <Box className={styles.topSideBox}>
                     <Box className={styles.bgBox} style={{backgroundImage: `url(${outBg()})`}}>

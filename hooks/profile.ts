@@ -2,6 +2,7 @@ import {useAppDispatch, useAppSelector} from "./redux";
 import {updateProfile} from "../actions/user";
 import {selectAuth} from "../store/selector/auth";
 import {
+    setImageResizeModalActive, setImageResizeModalData,
     setImageUploadModalActive,
     setImageUploadModalData,
     setModalWithFormActive,
@@ -15,6 +16,11 @@ import {websiteRegex} from "../constants/regex";
 type FormikValues = {
     [key:string]: string;
 }
+
+const personalEmailValidationSchema = yup.object({
+    email: yup.string()
+        .required('Email is required')
+});
 
 const infoValidationSchema = yup.object({
     fullname: yup.string(),
@@ -64,6 +70,8 @@ export const useProfileInfoActions = ():any => {
         if(!result.success){
             actions.setStatus(result.message);
         }else{
+            dispatch(setModalWithFormActive(false));
+            dispatch(setModalWithFormData(null));
             actions.setStatus("Successfully changed");
         }
         actions.setSubmitting(false);
@@ -93,6 +101,19 @@ export const useProfileInfoActions = ():any => {
     }
 
     return {
+        'PERSONAL_EMAIL': {
+            handleOpenModal: handleOpenModal('PERSONAL_EMAIL'),
+            title: "Persona; Email",
+            validationSchema: personalEmailValidationSchema,
+            handleSubmit: handleChangeData,
+            fields: [
+                {
+                    field: "email",
+                    defaultValue: "",
+                    label: "Your email",
+                },
+            ],
+        },
         'INFO': {
             handleOpenModal: handleOpenModal('INFO'),
             title: "Info",
@@ -107,7 +128,7 @@ export const useProfileInfoActions = ():any => {
                     field: "position",
                     label: "Your position",
                 }
-            ]
+            ],
         },
         'PHONE': {
             handleOpenModal: handleOpenModal('PHONE'),
@@ -123,7 +144,8 @@ export const useProfileInfoActions = ():any => {
                     field: "personalPhone",
                     label: "Your personal phone",
                 }
-            ]
+            ],
+            isOut: true,
         },
         'EMAIL': {
             handleOpenModal: handleOpenModal('EMAIL'),
@@ -139,7 +161,8 @@ export const useProfileInfoActions = ():any => {
                     field: "email",
                     label: "Your personal email",
                 }
-            ]
+            ],
+            isOut: true,
         },
         'WEBSITE': {
             handleOpenModal: handleOpenModal('WEBSITE'),
@@ -155,7 +178,8 @@ export const useProfileInfoActions = ():any => {
                     field: "otherWebsite",
                     label: "Other website",
                 }
-            ]
+            ],
+            isOut: true,
         },
         'PASSWORD': {
             handleOpenModal: handleOpenModal('PASSWORD'),
@@ -173,7 +197,8 @@ export const useProfileInfoActions = ():any => {
                     defaultValue: "",
                     label: "Confirm your password",
                 }
-            ]
+            ],
+            isOut: true,
         }
     }
 }
@@ -193,6 +218,19 @@ type ValuesType = {
     [key:string]:string;
 }
 
+
+const avatarValidationSchema = yup.object({
+    avatar: yup.mixed()
+        .required()
+        .nullable()
+});
+
+const bgValidationSchema = yup.object({
+    bg: yup.mixed()
+        .nullable()
+        .required()
+});
+
 export const useProfilePhotoActions = () => {
     const dispatch = useAppDispatch();
     const {profile} = useAppSelector(selectAuth);
@@ -202,12 +240,16 @@ export const useProfilePhotoActions = () => {
         const result = await dispatch(updateProfile({uniqueId: profile.uniqueId, ...values})).unwrap();
         if(!result.success){
             actions.setStatus(result.message);
+        }else{
+            actions.setStatus("Successfully bg is changed");
         }
+        actions.resetForm();
         actions.setSubmitting(false);
     }
 
     const handleAvatarWithoutLTRBSubmit = async (values:ValuesType, actions:any) => {
-
+        dispatch(setImageResizeModalData(values.avatar));
+        dispatch(setImageResizeModalActive(true));
     }
 
     const handleAvatarWithLTRBSubmit = async (values:ValuesType, actions:any) => {
@@ -215,17 +257,28 @@ export const useProfilePhotoActions = () => {
     }
 
     return {
-        'AVATAR': (dataFromResizeModal:any=null) => ({
+        'AVATAR_WITHOUT_LTRB': (dataFromResizeModal:any=null) => ({
             fields: [
                 ...outDataFromResizeModal(dataFromResizeModal),
             ],
-            handleAvatarWithLTRBSubmit,
-            handleAvatarWithoutLTRBSubmit,
+            mainField: 'avatar',
+            validationSchema: avatarValidationSchema,
+            handleSubmit: handleAvatarWithoutLTRBSubmit,
+        }),
+        'AVATAR_WITH_LTRB': (dataFromResizeModal:any=null) => ({
+            fields: [
+                ...outDataFromResizeModal(dataFromResizeModal),
+            ],
+            mainField: 'avatar',
+            validationSchema: avatarValidationSchema,
+            handleSubmit: handleAvatarWithLTRBSubmit,
         }),
         'BG': () => ({
             fields: [{
                 name: "bg"
             }],
+            mainField: 'bg',
+            validationSchema: bgValidationSchema,
             handleSubmit: handleBGFormSubmit,
         }),
     }

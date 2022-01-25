@@ -3,6 +3,7 @@ import {useAppDispatch} from "../../hooks/redux";
 import {check} from "../../actions/auth";
 import {useRouter} from "next/router";
 import {setLoading} from "../../store/reducers/main";
+import {getCards} from "../../actions/card";
 
 
 const OnceActions:FC = () => {
@@ -11,6 +12,7 @@ const OnceActions:FC = () => {
 
     useEffect(() => {
         dispatch(check());
+        dispatch(getCards());
     }, []);
 
     useEffect(() => {

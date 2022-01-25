@@ -2,7 +2,7 @@ import {FC} from "react";
 import {Box, Modal, Typography} from "@mui/material";
 import {selectAuth} from "../../../store/selector/auth";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {setModalWithFormActive} from "../../../store/reducers/auth";
+import {setModalWithFormActive, setModalWithFormData} from "../../../store/reducers/auth";
 import {makeStyles} from "@mui/styles";
 import {Formik} from 'formik';
 import {media} from "../../../utility/media";
@@ -53,8 +53,11 @@ const ModalWithForm:FC = () => {
     const currentData = profileActions[authState.modalWithFormData];
 
     const handleClose = () => {
-        dispatch(setModalWithFormActive(null));
+        if(authState.modalWithFormData === 'PERSONAL_EMAIL'){
+            return;
+        }
         dispatch(setModalWithFormActive(false));
+        dispatch(setModalWithFormData(null));
     }
     if(!authState.modalWithFormActive){
         return null;
@@ -94,7 +97,7 @@ const ModalWithForm:FC = () => {
                                     name={elem.field}
                                     id={elem.field}
                                     label={elem.label}
-                                    placeholder={!!elem.placeholder && elem.placeholder}
+                                    {...(!!elem.placeholder && elem.placeholder) ? {placeholder: elem.placeholder} : {}}
                                 />
                             ))}
                             <BaseButton type="submit">Save</BaseButton>

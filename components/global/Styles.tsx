@@ -5,13 +5,17 @@ const useStyles = makeStyles({
     '@global': {
         'html, body': {
             fontFamily: "'Raleway', sans-serif",
+            boxSizing: 'border-box',
+        },
+        'a': {
+            cursor: 'pointer',
         }
     }
 });
 
 
 const GlobalStyles = ():null => {
-    const styles = useStyles();
+    useStyles();
     return null
 }
 

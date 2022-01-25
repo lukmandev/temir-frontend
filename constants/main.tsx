@@ -205,3 +205,113 @@ export const shareSocials:shareSocialType[] = [
         icon: LinkedIn,
     },
 ]
+
+export const howToUseSteps = [
+    {
+        title: "Tap card to the phone",
+    },
+    {
+        title: "Add your information",
+    },
+    {
+        title: "Login & enter password",
+    },
+    {
+        title: "Start share",
+    }
+]
+
+export const currenciesTitle = {
+    dollar: "$",
+    dirham: "Дирхам",
+}
+
+export const questions = [
+    {
+
+    }
+]
+
+export const buyCardCounts = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+]
+
+
+type footerLinkItem = {
+    isRelativePath: boolean;
+    link: string;
+    title: string;
+}
+
+export const footerLinks:footerLinkItem[] = [
+    {
+        isRelativePath: false,
+        link: '',
+        title: "Contact",
+    },
+    {
+        isRelativePath: false,
+        link: '',
+        title: "Support",
+    },
+    {
+        isRelativePath: false,
+        link: '',
+        title: "Warranty",
+    },
+    {
+        isRelativePath: false,
+        link: '',
+        title: "Privacy Policy",
+    },
+    {
+        isRelativePath: false,
+        link: '',
+        title: "Terms of Service ",
+    },
+    {
+        isRelativePath: true,
+        link: '/questions',
+        title: "Questions",
+    }
+]
+
+
+type socialType = {
+    icon: any;
+    link: string;
+    color: string;
+}
+
+export const socials:socialType[] = [
+    {
+        icon: WhatsappRounded,
+        link: "",
+        color: "#0FFE68",
+    },
+    {
+        icon: Instagram,
+        link: "",
+        color: "#ED1D5B",
+    },
+    {
+        icon: FacebookOutlined,
+        link: "",
+        color: "#1E5FAB",
+    },
+    {
+        icon: LinkedIn,
+        link: "",
+        color: "#1E5FAB",
+    }
+]

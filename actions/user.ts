@@ -5,6 +5,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {setSimpleModalActive, setSimpleModalMessage} from "../store/reducers/main";
 import {setAuth, setProfile} from "../store/reducers/auth";
 import authApi from "../http/authApi";
+import {objectToFormData} from "../utility/form";
 
 
 export interface fetchUserInterface {
@@ -167,7 +168,8 @@ export const updateProfile = createAsyncThunk(
             message: ""
         }
         try {
-            const {data} = await authApi.patch(`users/${uniqueId}/`, body);
+            const formData = objectToFormData({uniqueId, ...body});
+            const {data} = await authApi.patch(`users/${uniqueId}/`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
             dispatch(setProfile(data));
             result.success = true;
         } catch (e:any){

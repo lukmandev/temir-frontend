@@ -118,3 +118,12 @@ export const saveValues = (values:Values) => {
     });
     return result;
 }
+
+
+export const objectToFormData = (object:any) => {
+    const form = new FormData();
+    for(let i in object){
+        form.append(i, object[i]);
+    }
+    return form;
+}

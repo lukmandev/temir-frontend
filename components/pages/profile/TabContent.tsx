@@ -50,7 +50,7 @@ export const ContactsInfo:FC = () => {
 
     return (
         <Box className={styles.wrapper}>
-            {Object.entries(profileActions).filter((el, i) => i !==0).map((elem:any) => (
+            {Object.entries(profileActions).filter((el:any) => !!el[1].isOut).map((elem:any) => (
                 <Button onClick={elem[1].handleOpenModal} key={elem[0]} className={styles.button}>{elem[1].title}</Button>
             ))}
         </Box>
