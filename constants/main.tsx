@@ -328,7 +328,7 @@ type footerLinkItem = {
 export const footerLinks:footerLinkItem[] = [
     {
         isRelativePath: false,
-        link: '',
+        link: ``,
         title: "Contact",
     },
     {
@@ -343,12 +343,12 @@ export const footerLinks:footerLinkItem[] = [
     },
     {
         isRelativePath: false,
-        link: '',
+        link: `${process.env.BASE_URL}/files/privacy-policy.pdf`,
         title: "Privacy Policy",
     },
     {
         isRelativePath: false,
-        link: '',
+        link: `${process.env.BASE_URL}/files/terms-of-service.pdf`,
         title: "Terms of Service ",
     },
     {

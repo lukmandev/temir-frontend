@@ -7,7 +7,7 @@ import {Box, Button, Theme} from "@mui/material";
 import ChangeMode from "./ChangeMode";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
-import {userTabContent, userTabList} from "../../../constants/main";
+import {userTabContent} from "../../../constants/main";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import clsx from "clsx";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme:Theme) => ({
     bottomButtonsBox: {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
+        position: 'fixed',
+        left: 0,
+        bottom: 0,
     },
     bottomButton: {
         width: '100%',
