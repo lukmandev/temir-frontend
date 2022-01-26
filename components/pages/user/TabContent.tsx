@@ -43,6 +43,12 @@ const useContactsStyles = makeStyles((theme: Theme) => ({
                 borderBottom: `1px solid ${theme.palette.secondary.main}`,
             }
         },
+    },
+    noDataTitle: {
+        color: theme.palette.primary.main,
+        '&.dark': {
+            color: theme.palette.secondary.main,
+        }
     }
 }));
 
@@ -66,7 +72,13 @@ export const ContactsInfo: FC = () => {
                                value={elem.value} readOnly/>
                     </FormControl>
                 </MuiLink>
-            )) : null}
+            )) : (
+                <Box sx={{width: '100%', py: media(15, 23)}}>
+                    <Typography textAlign="center" fontSize={media(18, 22)} fontWeight="500" className={clsx(styles.noDataTitle, {dark: isDarkMode})}>
+                        User hanst write any contact
+                    </Typography>
+                </Box>
+            )}
         </form>
     )
 }
