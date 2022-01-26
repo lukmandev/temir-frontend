@@ -228,7 +228,79 @@ export const currenciesTitle = {
 
 export const questions = [
     {
+        id: 1,
+        title: "What phones are compatible?",
+        content: "TEMIR works with all modern smartphones <br /> hello world",
+        isVideoSide: true,
+    },
+    {
+        id: 2,
+        title: "How to setup my TEMIR card?",
+        content: `
+            Once you receive your card, you can tap
+            to activate and create your account. No<br /> 
+            application needet and setup takes less <br />
+            than 2 minutes.<br />
+            At the time of your order, we only need to know what to print on your card. Everything else, you get to add to your account yourself.
+        `,
+        isVideoSide: true,
+    },
 
+
+    {
+        id: 3,
+        title: "What material is TEMIR card?",
+        content: `
+            TEMIR Card  made with  stainless steel. Our cards are sturdy and yet luxury. In addition, the gold, silver, rose gold and black matte finish adds  a premium feel that is incomparable to most cards in the market today.
+        `,
+    },
+    {
+        id: 4,
+        title: "Can I design my Temir card?",
+        content: `
+            Yes! We have an amazing graphic design team in-house that will ensure your logo and artwork translate perfectly into the card. Design your card here
+
+            Shortly after you place your order, we will provide you with mockup designs to review and choose from. Please make sure you provide us with high quality files in Vector, Ai, PSD, EPS, PDF, JPEG or PNG for the best result possible.
+            
+            Design limitations:<br />
+            
+            We can print by laser Silver on matte black cards<br />
+            You can only design the front of your card<br />
+        `
+    },
+    {
+        id: 5,
+        title: "What is the return policy?",
+        content: `
+           You can get a full refund within 30 days of your purchase date. You don’t need to ship your card back to us, we will deactivate your TEMIR card remotely.
+            You can get a full refund within 30 days of your purchase date. You don’t need to ship your card back to us, we will deactivate your TEMIR card remotely.
+        `
+    },
+    {
+        id: 6,
+        title: "How long is the delivery?",
+        content: `
+            Orders are processed daily. <br />
+            Dubai-Sharjah-Ajman          2-10 hours<br />
+            Abu Dhabi-Ras Al Khaimah   1-2 days<br />
+            Umm Al Quwain Fujairah      2-3 days<br />
+        `
+    },
+    {
+        id: 7,
+        title: "What is TEMIR’s privacy policy?",
+        content: `
+            We don’t ask our users for any sensitive information nor their social media logins. You can share as much or as little information as you’d like on your TEMIR profile. TEMIR profiles are public landing pages that hosts your information and make it easily sharable to people you meet.<br /><br />
+            Read our Privacy Policy and Terms of Agreement
+        `
+    },
+    {
+        id: 8,
+        title: "Any additional charges?",
+        content: `
+            No! <br />
+            Unlike other brands, we have one time payment option only.
+        `
     }
 ]
 

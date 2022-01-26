@@ -2,7 +2,11 @@ import {FC, FormEvent} from "react";
 import {Box, Modal, Theme, Typography} from "@mui/material";
 import {Formik} from "formik";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {setImageUploadModalActive} from "../../../store/reducers/auth";
+import {
+    setImageResizeModalActive,
+    setImageResizeModalData,
+    setImageUploadModalActive, setImageUploadModalData
+} from "../../../store/reducers/auth";
 import {makeStyles} from "@mui/styles";
 import BaseButton from "../../Form/BaseButton";
 import {media} from "../../../utility/media";
@@ -84,6 +88,13 @@ const UploadPhotoModal:FC = () => {
 
     const handleChange = (setValues:any) => {
         return (e: FormEvent<HTMLInputElement>) => {
+            if(authState.imageUploadModalData.key === 'AVATAR_WITH_LTRB'){
+                dispatch(setImageResizeModalData((e.target as HTMLInputElement).files[0]));
+                dispatch(setImageResizeModalActive(true));
+                dispatch(setImageUploadModalActive(false));
+                dispatch(setImageUploadModalData(null));
+                return;
+            }
             setValues({[currentField.mainField]: (e.target as HTMLInputElement).files[0]})
         }
     }

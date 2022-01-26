@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "./redux";
-import {updateProfile} from "../actions/user";
+import {resizeAvatar, updateProfile} from "../actions/user";
 import {selectAuth} from "../store/selector/auth";
 import {
     setImageResizeModalActive, setImageResizeModalData,
@@ -231,6 +231,7 @@ const bgValidationSchema = yup.object({
         .required()
 });
 
+
 export const useProfilePhotoActions = () => {
     const dispatch = useAppDispatch();
     const {profile} = useAppSelector(selectAuth);
@@ -248,12 +249,23 @@ export const useProfilePhotoActions = () => {
     }
 
     const handleAvatarWithoutLTRBSubmit = async (values:ValuesType, actions:any) => {
+        dispatch(setImageUploadModalActive(false));
+        dispatch(setImageUploadModalData(null));
         dispatch(setImageResizeModalData(values.avatar));
         dispatch(setImageResizeModalActive(true));
     }
 
-    const handleAvatarWithLTRBSubmit = async (values:ValuesType, actions:any) => {
-
+    const handleAvatarWithLTRBSubmit = async (values:any, actions:any) => {
+        actions.setSubmitting(true);
+        const result = await dispatch(resizeAvatar(values)).unwrap();
+        if(!result.success){
+            actions.setStatus(result.message);
+        }else{
+            dispatch(setImageUploadModalActive(false));
+            dispatch(setImageUploadModalData(null));
+            actions.setStatus("Successfully avatar is saved");
+        }
+        actions.setSubmitting(false);
     }
 
     return {

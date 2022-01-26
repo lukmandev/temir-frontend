@@ -180,4 +180,30 @@ export const updateProfile = createAsyncThunk(
     }
 )
 
+type ResizeAvatarBodyType = {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+    avatar: any;
+}
 
+export const resizeAvatar = createAsyncThunk(
+    'auth/avatar/',
+    async (body:ResizeAvatarBodyType, {dispatch}) => {
+        const result = {
+            success: false,
+            message: ""
+        }
+        try {
+            const formData = objectToFormData(body);
+            const {data} = await authApi.patch(`users/avatar/`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+            dispatch(setProfile(data));
+            result.success = true;
+        } catch (e:any){
+            result.message = ERRORS['ERROR_500'];
+            result.success = false;
+        }
+        return result;
+    }
+)

@@ -1,15 +1,20 @@
 import {FC, useEffect, useRef, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {selectAuth} from "../../../store/selector/auth";
-import {Box, Container, Modal, Typography} from "@mui/material";
-import {setImageResizeModalActive} from "../../../store/reducers/auth";
+import {Box, Container, Modal, Stack, Theme, Typography} from "@mui/material";
+import {
+    setImageResizeModalActive, setImageResizeModalData,
+    setImageUploadModalActive,
+    setImageUploadModalData
+} from "../../../store/reducers/auth";
 import {makeStyles} from "@mui/styles";
 import ReactCrop from 'react-image-crop';
 import {media} from "../../../utility/media";
+import DarkButton from "./DarkButton";
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme:Theme) => ({
     wrapper: {
         width: '100%',
         height: '100%',
@@ -17,21 +22,41 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    cropInnerWrapper: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: `1px solid ${theme.palette.secondary.main}`,
+    },
     crop: {
+        width: '100%',
+        maxHeight: '90%',
         '& .ReactCrop__crop-selection': {
             borderImageSource: 'none',
+        },
+        '& .ReactCrop__image': {
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
         }
     }
-});
+}));
+
+const initialCrop = {aspect: 1}
 
 const ImageResizeModal:FC = () => {
     const styles = useStyles();
-    const [crop, setCrop] = useState<any>({ aspect: 1 });
+    const [crop, setCrop] = useState<any>(initialCrop);
+    const [cropInfo, setCropInfo] = useState<object | null>(null);
     const [image, setImage] = useState(null);
     const imageRef = useRef<HTMLImageElement | null>(null);
     const [loaded, setLoaded] = useState(null);
     const [error, setError] = useState(null);
-    const [result, setResult] = useState<any>("");
     const authState = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
 
@@ -52,75 +77,49 @@ const ImageResizeModal:FC = () => {
             setImage(null);
             setError(null);
         }
-    }, [authState.imageResizeModalActive]);
+    }, [authState.imageResizeModalActive, authState.imageResizeModalData]);
 
 
     const handleClose = () => {
         dispatch(setImageResizeModalActive(false));
     }
 
-    const getCroppedImg = (image:HTMLImageElement, crop:any, fileName:string) => {
-        const canvas = document.createElement('canvas');
-        const pixelRatio = window.devicePixelRatio;
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = crop.width * pixelRatio * scaleX;
-        canvas.height = crop.height * pixelRatio * scaleY;
-
-        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-        ctx.imageSmoothingQuality = 'high';
-
-        ctx.drawImage(
-            image,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width * scaleX,
-            crop.height * scaleY
-        );
-
-        return new Promise((resolve) => {
-            canvas.toBlob(
-                (blob) => {
-                    // @ts-ignore
-                    blob.name = fileName;
-                    resolve(blob);
-                },
-                "image/jpeg",
-                1
-            );
-        });
-    }
-
     const onComplete = async () => {
         if (imageRef && crop.width && crop.height) {
             const scaleX = imageRef.current.naturalWidth / imageRef.current.width;
             const scaleY = imageRef.current.naturalHeight / imageRef.current.height;
-            console.log(
-                crop.x * scaleX,
-                crop.y * scaleY,
-                crop.width * scaleX,
-                crop.height * scaleY,
-            )
-            return "";
-            const croppedImageUrl = await getCroppedImg(imageRef.current, crop, 'cropImage.jpeg');
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(croppedImageUrl as Blob);
-            fileReader.onload = (e) => {
-                setResult(e.target.result);
-            }
+            setCropInfo({
+                left: `${Math.round(crop.x * scaleX)}`,
+                top: `${Math.round(crop.y * scaleY)}`,
+                right: `${Math.round(crop.width * scaleX) + Math.round(crop.x * scaleX)}`,
+                bottom: `${Math.round(crop.height * scaleY) + Math.round(crop.y * scaleY)}`,
+            });
         }else{
-            setResult("");
+            setCropInfo(null);
         }
     }
 
     const onImageLoaded = (imgTag:HTMLImageElement) => {
         imageRef.current = imgTag;
+    }
+
+    const handleExit = () => {
+        dispatch(setImageUploadModalData(null));
+        dispatch(setImageResizeModalActive(false));
+    }
+
+    const handleFinishCropImage = () => {
+        if(cropInfo){
+            dispatch(setImageResizeModalActive(false));
+            dispatch(setImageResizeModalData(null));
+            dispatch(setImageUploadModalData({key: 'AVATAR_WITH_LTRB', data: {avatar: authState.imageResizeModalData, ...cropInfo}}));
+            dispatch(setImageUploadModalActive(true));
+            setImage(null);
+            setCropInfo(null);
+            setCrop(initialCrop);
+            imageRef.current = null;
+
+        }
     }
 
     const outImage = () => {
@@ -133,17 +132,26 @@ const ImageResizeModal:FC = () => {
                 )
             }
             return (
-                <ReactCrop
-                    className={styles.crop}
-                    src={image}
-                    crop={crop}
-                    ruleOfThirds
-                    onComplete={onComplete}
-                    onChange={(newCrop:any) => setCrop(newCrop)}
-                    onImageLoaded={onImageLoaded}
-                    disabled={!(loaded && !error)}
-                    imageStyle={{width: 500, height: 500}}
-                />
+                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <Box sx={{paddingBottom: '100%', width: '100%', position: 'relative'}}>
+                        <Box className={styles.cropInnerWrapper}>
+                            <ReactCrop
+                                className={styles.crop}
+                                src={image}
+                                crop={crop}
+                                ruleOfThirds
+                                onComplete={onComplete}
+                                onChange={(newCrop:any) => setCrop(newCrop)}
+                                onImageLoaded={onImageLoaded}
+                                disabled={!(loaded && !error)}
+                            />
+                        </Box>
+                    </Box>
+                    <Stack marginTop={media(10, 15)} direction="row" spacing={2}>
+                        <DarkButton onClick={handleExit}>Exit</DarkButton>
+                        <DarkButton onClick={handleFinishCropImage}>Crop Image</DarkButton>
+                    </Stack>
+                </Box>
             )
         }
         return "Loading";
@@ -154,7 +162,6 @@ const ImageResizeModal:FC = () => {
             <Box className={styles.wrapper}>
                 <Container maxWidth="sm" disableGutters>
                     {outImage()}
-                    <img src={result} />
                 </Container>
             </Box>
         </Modal>
