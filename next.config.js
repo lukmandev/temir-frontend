@@ -9,8 +9,8 @@ module.exports = withImages({
     images: {
         disableStaticImages: true
     },
-    env: {
-        API_URL: 'http://localhost:8000',
-        BASE_URL: 'http://localhost:3000'
-    }
+    // env: {
+    //     API_URL: 'https://temir-backend.herokuapp.com',
+    //     BASE_URL: 'http://localhost:3000'
+    // }
 });
