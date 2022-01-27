@@ -33,10 +33,8 @@ const useStyles = makeStyles((theme:Theme) => ({
         padding: `${media(40, 50)} ${media(30, 45)} ${media(20, 25)}`
     },
     form: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
         gridRowGap: media(10, 12),
 
         position: 'relative',
@@ -136,7 +134,7 @@ const LoginModal:FC = () => {
                             <Button className={clsx(styles.forgotPasswordBtn, styles.button)} onClick={handleForgotPassword}>Forgot Password ?</Button>
                             <Button className={clsx(styles.sendBtn, styles.button)} type="submit">LOGIN</Button>
                             {!!formik.status && (
-                                <Typography fontSize={media(15, 18)} fontWeight="500" color="red">
+                                <Typography textAlign="center" fontSize={media(15, 18)} fontWeight="500" color="red">
                                     {formik.status}
                                 </Typography>
                             )}

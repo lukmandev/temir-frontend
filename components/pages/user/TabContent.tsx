@@ -19,29 +19,25 @@ const useContactsStyles = makeStyles((theme: Theme) => ({
         justifyContent: 'flex-start',
         gridRowGap: media(20, 25),
     },
+    link: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
     label: {
         color: theme.palette.primary.main,
         '&.dark': {
             color: theme.palette.secondary.main,
         }
     },
-    input: {
+    value: {
         color: theme.palette.primary.main,
-        '&:before, &.Mui-focused:before': {
-            borderBottom: `1px solid ${theme.palette.primary.main}`,
-            left: 0,
-            bottom: 0,
-            content: `""`,
-            position: "absolute",
-            right: 0,
-            transition: "border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-            pointerEvents: "none",
-        },
+        borderBottom: `1px solid ${theme.palette.primary.main}`,
+        padding: `${media(3, 5)} 0`,
         '&.dark': {
-            color: theme.palette.quaternary.main,
-            '&:before': {
-                borderBottom: `1px solid ${theme.palette.secondary.main}`,
-            }
+            color: theme.palette.secondary.main,
+            borderBottom: `1px solid ${theme.palette.secondary.main}`,
         },
     },
     noDataTitle: {
@@ -64,12 +60,13 @@ export const ContactsInfo: FC = () => {
     return (
         <form className={styles.form}>
             {userInfo.length ? userInfo.map((elem, i) => (
-                <MuiLink underline="none" key={i} href={elem.link}>
-                    <FormControl variant="standard">
-                        <InputLabel className={clsx(styles.label, {dark: isDarkMode})}
-                                    htmlFor="component-simple">{elem.label}</InputLabel>
-                        <Input className={clsx(styles.input, {dark: isDarkMode})} value={elem.value}/>
-                    </FormControl>
+                <MuiLink underline="none" key={i} href={elem.link} className={styles.link}>
+                    <Typography fontSize={media(12, 14)} fontWeight="500" className={clsx(styles.label, {dark: isDarkMode})}>
+                        {elem.label}
+                    </Typography>
+                    <Typography fontSize={media(16, 18)} className={clsx(styles.value, {dark: isDarkMode})}>
+                        {elem.value}
+                    </Typography>
                 </MuiLink>
             )) : (
                 <Box sx={{width: '100%', py: media(15, 23)}}>
