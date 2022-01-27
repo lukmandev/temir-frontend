@@ -9,8 +9,8 @@ module.exports = withImages({
     images: {
         disableStaticImages: true
     },
-    env: {
-        API_URL: 'http://167.172.67.40',
-        BASE_URL: 'https://temir-frontend.herokuapp.com'
-    }
+    // env: {
+    //     API_URL: 'http://167.172.67.40',
+    //     BASE_URL: 'https://temir-frontend.herokuapp.com'
+    // }
 });

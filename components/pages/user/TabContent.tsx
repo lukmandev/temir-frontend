@@ -71,7 +71,7 @@ export const ContactsInfo: FC = () => {
             )) : (
                 <Box sx={{width: '100%', py: media(15, 23)}}>
                     <Typography textAlign="center" fontSize={media(18, 22)} fontWeight="500" className={clsx(styles.noDataTitle, {dark: isDarkMode})}>
-                        User hanst write any contact
+                        User hasnt write any contact
                     </Typography>
                 </Box>
             )}
