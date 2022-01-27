@@ -1,20 +1,8 @@
-FROM node:17-alpine3.14
-
-
+FROM node:alpine as BUILD_IMAGE
 WORKDIR /app
-
-COPY package.json .
-
+COPY package.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
-
-ENV NODE_ENV=production
-
-ENV PORT=3000
-
 EXPOSE 3000
-
-CMD [ "npm" , "start" ]
+CMD ["npm", "start"]
