@@ -7,9 +7,6 @@ services:
     container_name: front
     ports:
       - "3000:3000"
-    environment:
-      - BASE_URL=http://temir.ae
-      - API_URL=http://167.172.67.40
 
   nginx:
     build: ./nginx
