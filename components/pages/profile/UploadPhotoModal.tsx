@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme:Theme) => ({
     }
 }));
 
+const limitedFileName = 20;
+
 type uploadPhotoValuesType = {
     [key:string]:string;
 }
@@ -99,6 +101,16 @@ const UploadPhotoModal:FC = () => {
         }
     }
 
+    const outFileName = (field:any) => {
+        if(field && field.name){
+            if(field.name.length > limitedFileName){
+                return field.name.substring(0, limitedFileName - 3) + "...";
+            }
+            return field.name;
+        }
+        return "File is not selected";
+    }
+
     return (
         <Modal open={authState.imageUploadModalActive} onClose={handleClose}>
             <Box className={styles.modal}>
@@ -116,7 +128,7 @@ const UploadPhotoModal:FC = () => {
                                     </BaseButton>
                                     <Typography fontSize={media(12, 15)} fontWeight="600" color="secondary">
                                         {/*// @ts-ignore*/}
-                                        {formik.values[currentField.mainField] ? formik.values[currentField.mainField].name : "File not selected"}
+                                        {outFileName(formik.values[currentField.mainField])}
                                     </Typography>
                                     <input accept="image/png, image/gif, image/jpeg" style={{display: 'none'}} name="avatar-image" id="avatar-image" type="file" onChange={handleChange(formik.setValues)}/>
                                 </Box>

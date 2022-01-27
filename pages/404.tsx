@@ -32,13 +32,15 @@ const NotFound:FC = () => {
                 <Typography marginTop={media(5, 8)} fontSize={media(28, 33)} fontWeight="700" color="secondary">
                     NOT FOUND
                 </Typography>
-                <Typography marginY={media(10, 15)} fontSize={media(18, 21)} fontWeight="400" color="secondary">
+                <Typography textAlign="center" marginY={media(10, 15)} fontSize={media(18, 21)} fontWeight="400" color="secondary">
                     Resource you was search not found
                 </Typography>
                 <NextLink href="/">
-                    <BlueButton sx={{maxWidth: 300, width: '100%'}} component={MuiLink}>
-                        Home
-                    </BlueButton>
+                    <MuiLink underline="none">
+                        <BlueButton sx={{maxWidth: 300, width: '100%'}}>
+                            Home
+                        </BlueButton>
+                    </MuiLink>
                 </NextLink>
             </Container>
         </MainLayout>

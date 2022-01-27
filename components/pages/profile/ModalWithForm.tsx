@@ -66,7 +66,7 @@ const ModalWithForm:FC = () => {
     const outFormikInitialValues = () => {
         const values: FormikValues = {}
         currentData.fields.forEach((elem:any) => {
-            values[elem.field] = elem.defaultValue !== undefined ? elem.defaultValue : authState.profile[elem.field];
+            values[elem.field] = elem.defaultValue !== undefined ? elem.defaultValue : (authState.profile[elem.field] ? authState.profile[elem.field] : "");
         });
         return values;
     }

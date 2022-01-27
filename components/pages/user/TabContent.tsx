@@ -68,8 +68,7 @@ export const ContactsInfo: FC = () => {
                     <FormControl variant="standard">
                         <InputLabel className={clsx(styles.label, {dark: isDarkMode})}
                                     htmlFor="component-simple">{elem.label}</InputLabel>
-                        <Input className={clsx(styles.input, {dark: isDarkMode})} id="component-simple"
-                               value={elem.value} readOnly/>
+                        <Input className={clsx(styles.input, {dark: isDarkMode})} value={elem.value}/>
                     </FormControl>
                 </MuiLink>
             )) : (

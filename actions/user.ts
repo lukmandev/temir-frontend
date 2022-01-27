@@ -67,7 +67,11 @@ export const forgotPassword = createAsyncThunk(
                 result.error = true;
             }
         } finally {
-            dispatch(setSimpleModalActive(true));
+            if(result.error){
+                dispatch(setSimpleModalActive(false));
+            }else{
+                dispatch(setSimpleModalActive(true));
+            }
         }
         return result;
     }

@@ -23,13 +23,13 @@ const personalEmailValidationSchema = yup.object({
 });
 
 const infoValidationSchema = yup.object({
-    fullname: yup.string(),
-    position: yup.string(),
+    fullname: yup.string().nullable(),
+    position: yup.string().nullable(),
 });
 
 const phoneValidationSchema = yup.object({
-    workPhone: yup.string(),
-    personalPhone: yup.string(),
+    workPhone: yup.string().nullable(),
+    personalPhone: yup.string().nullable(),
 });
 
 const emailValidationSchema = yup.object({
@@ -42,8 +42,10 @@ const emailValidationSchema = yup.object({
 
 const websiteValidationSchema = yup.object({
     workWebsite: yup.string()
+        .nullable()
         .matches(websiteRegex, 'Enter correct url'),
-    personalWebsite: yup.string()
+    otherWebsite: yup.string()
+        .nullable()
         .matches(websiteRegex, 'Enter correct url')
 });
 
@@ -246,6 +248,8 @@ export const useProfilePhotoActions = () => {
         }
         actions.resetForm();
         actions.setSubmitting(false);
+        dispatch(setImageUploadModalActive(false));
+        dispatch(setImageUploadModalData(null));
     }
 
     const handleAvatarWithoutLTRBSubmit = async (values:ValuesType, actions:any) => {

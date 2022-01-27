@@ -70,7 +70,7 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
     return (
         <UserContext.Provider value={userInfo}>
             <Head>
-                {fonts[userInfo.data.fontFamily].link}
+                {fonts[userInfo.data.fontFamily].link(1)}
                 <meta name="title" content={userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId} />
                 {!!userInfo.data.description && (
                     <meta name="description" content={userInfo.data.description} />

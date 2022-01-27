@@ -36,9 +36,11 @@ const NotFound:FC = () => {
                     Some kind of error has occurred
                 </Typography>
                 <NextLink href="/">
-                    <BlueButton sx={{maxWidth: 300, width: '100%'}} component={MuiLink}>
-                        Home
-                    </BlueButton>
+                    <MuiLink underline="none">
+                        <BlueButton sx={{maxWidth: 300, width: '100%'}}>
+                            Home
+                        </BlueButton>
+                    </MuiLink>
                 </NextLink>
             </Container>
         </MainLayout>
