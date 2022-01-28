@@ -21,17 +21,17 @@ services:
       - certbot-var:/var/lib/letsencrypt
     ports:
       - "80:80"
-#  certbot:
-#    image: certbot/certbot
-#    depends_on:
-#      - nginx
-#    container_name: certbot
-#    volumes:
-#      - etc-letsencrypt:/etc/letsencrypt
-#    command:
-#      - certonly --webroot --webroot-path=/var/www/html --email temircard@gmail.com --agree-tos --no-eff-email --staging -d temir.ae
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    container_name: certbot
+    volumes:
+      - etc-letsencrypt:/etc/letsencrypt
+    command:
+      - certonly --webroot --webroot-path=/var/www/html --email temircard@gmail.com --agree-tos --no-eff-email --staging -d temir.ae
 volumes:
   certbot-etc:
   certbot-var:
   web-root:
-#  etc-letsencrypt:
+  etc-letsencrypt:
