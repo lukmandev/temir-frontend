@@ -33,3 +33,4 @@ volumes:
   certbot-etc:
   certbot-var:
   web-root:
+  etc-letsencrypt:
