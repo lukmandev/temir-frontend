@@ -9,7 +9,7 @@ services:
       - "3000:3000"
 
   nginx:
-    build: .
+    build: ./nginx
     image: nginx:1.21-alpine
     restart: always
     depends_on:
