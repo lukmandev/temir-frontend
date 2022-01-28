@@ -1,7 +1,7 @@
-FROM node:alpine as BUILD_IMAGE
+FROM node:latest
 WORKDIR /app
 COPY package.json ./
-RUN npm install --no-audit
+RUN npm install
 COPY . .
 RUN npm run build
 EXPOSE 3000
