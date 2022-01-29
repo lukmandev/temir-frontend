@@ -21,7 +21,6 @@ services:
       - STAGING=true
     depends_on:
       - web
-      - postgres
     ports:
       - "80:80"
       - "443:443"
