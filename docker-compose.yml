@@ -17,8 +17,8 @@ services:
       - TZ=Asia/Bishkek
       - URL=temir.ae
       - VALIDATION=http
-      - ONLY_SUBDOMAINS=true
-      - STAGING=true
+      - ONLY_SUBDOMAINS=false
+      - STAGING=false
     depends_on:
       - web
     ports:
