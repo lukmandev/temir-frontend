@@ -44,3 +44,55 @@ services:
       - etc-letsencrypt:/etc/letsencrypt
     command:
       - certonly --webroot --webroot
+
+
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name temir.ae;
+
+        location / {
+            proxy_pass http://web:3000;
+        }
+
+        location ~ /.well-known/acme-challenge {
+            allow all;
+            root /var/www/html;
+        }
+}
+server {
+    listen 443 ssl http2 default_server;
+    listen [::]:443 ssl http2 default_server;
+    server_name api.black-carbons.com;
+
+    ssl_certificate /etc/nginx/ssl/live/temir.ae/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/temir.ae/privkey.pem;
+
+    client_max_body_size 0;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Ssl on;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://web:3000;
+    }
+}
+
+FROM nginx:1.21-alpine
+
+
+RUN rm /etc/nginx/conf.d/*
+COPY ./default.conf /etc/nginx/conf.d/
+
+EXPOSE 80
+
+CMD [ "nginx", "-g", "daemon off;" ]
