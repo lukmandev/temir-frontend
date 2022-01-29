@@ -18,7 +18,7 @@ services:
       - URL=temir.ae
       - VALIDATION=http
       - ONLY_SUBDOMAINS=false
-      - STAGING=true
+      - STAGING=false
     depends_on:
       - web
     ports:
