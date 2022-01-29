@@ -1,7 +1,7 @@
 version: "3.8"
 
-
 services:
+
   web:
     build: .
     container_name: front
@@ -9,30 +9,26 @@ services:
       - "3000:3000"
 
   nginx:
-    build: ./nginx
-    image: nginx:1.21-alpine
+    image: linuxserver/swag
     restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Bishkek
+      - URL=temir.ae
+      - VALIDATION=http
+      - ONLY_SUBDOMAINS=true
+      - STAGING=true
     depends_on:
       - web
-    volumes:
-      - web-root:/var/www/html
-#      - ./nginx/default.conf:/etc/nginx/conf.d/
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
+      - postgres
     ports:
       - "80:80"
       - "443:443"
-  certbot:
-    image: certbot/certbot
-    depends_on:
-      - nginx
-    container_name: certbot
     volumes:
-      - etc-letsencrypt:/etc/letsencrypt
-    command:
-      - certonly --webroot --webroot-path=/var/www/html --email temircard@gmail.com --agree-tos --no-eff-email --staging -d temir.ae
+      - ./nginx/default.conf:/config/nginx/site-confs/default
+      - lets:/config/keys
+
+
 volumes:
-  certbot-etc:
-  certbot-var:
-  web-root:
-  etc-letsencrypt:
+  lets:
