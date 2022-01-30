@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         borderRadius: 5,
         padding: `${media(3, 5)} ${media(14, 18)}`,
         '&:hover': {
-            background: theme.palette.secondary.main,
+            background: "linear-gradient(270deg, #008DBA -15.48%, rgba(0, 160, 250, 0.56) 117.86%)",
             color: theme.palette.primary.main,
         }
     }
