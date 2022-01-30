@@ -7,8 +7,8 @@ import {media} from "../../utility/media";
 
 const useStyles = makeStyles((theme:Theme) => ({
     button: {
-        background: theme.palette.secondary.main,
-        color: theme.palette.primary.main,
+        background: "linear-gradient(270deg, #008DBA -15.48%, rgba(0, 160, 250, 0.56) 117.86%)",
+        color: theme.palette.secondary.main,
         borderRadius: 5,
         padding: `${media(3, 5)} ${media(14, 18)}`,
         '&:hover': {

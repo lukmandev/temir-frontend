@@ -13,13 +13,14 @@ import Loading from "../../Form/Loading";
 // @ts-ignore
 import hex2rgba from "hex2rgba";
 import {checkTheDifference} from "../../../utility/form";
+import {modalColor} from "../../../constants/main";
 
 
 const useStyles = makeStyles({
     modal: {
         maxWidth: 400,
         width: '100%',
-        background: '#878787',
+        background: modalColor,
         borderRadius: 15,
 
         position: 'absolute',
@@ -90,7 +91,7 @@ const ModalWithForm:FC = () => {
                 >
                     {(formik) => (
                         <form className={styles.form} onSubmit={formik.handleSubmit}>
-                            <Loading fontSize={media(14, 17)} bg={hex2rgba('#878787', 0.7)} active={formik.isSubmitting} />
+                            <Loading fontSize={media(14, 17)} bg={hex2rgba(modalColor, 0.7)} active={formik.isSubmitting} />
                             {currentData.fields.map((elem:any, i:number) => (
                                 <BaseInput
                                     key={`${i}`}

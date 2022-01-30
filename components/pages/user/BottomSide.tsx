@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: `${media(10, 15)} 0`,
+        padding: `${media(10, 15)} ${media(10, 15)}`,
     },
     iconButton: {
         width: media(38, 45),

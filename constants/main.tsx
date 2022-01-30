@@ -387,3 +387,5 @@ export const socials:socialType[] = [
         color: "#1E5FAB",
     }
 ]
+
+export const modalColor = "#DFDADA";

@@ -15,6 +15,7 @@ import {selectAuth} from "../../../store/selector/auth";
 import Loading from "../../Form/Loading";
 // @ts-ignore
 import hex2rgba from "hex2rgba";
+import {modalColor} from "../../../constants/main";
 
 
 const useStyles = makeStyles((theme:Theme) => ({
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        background: '#878787',
+        background: modalColor,
         borderRadius: 15,
         padding: `${media(50, 65)} ${media(35, 45)} ${media(40, 55)}`,
         border: 'none',
@@ -46,8 +47,9 @@ const useStyles = makeStyles((theme:Theme) => ({
         alignItems: 'center'
     },
     selectFileButton: {
-        fontWeight: '600',
+        background: theme.palette.secondary.main,
         color: theme.palette.primary.main,
+        fontWeight: '600',
         fontSize: media(12, 14),
         textTransform: 'none',
         padding: `${media(4, 7)} ${media(17, 20)}`,
@@ -121,7 +123,7 @@ const UploadPhotoModal:FC = () => {
                 >
                     {(formik) => (
                             <form className={styles.form} onSubmit={formik.handleSubmit}>
-                                <Loading fontSize={media(18, 20)} active={formik.isSubmitting} bg={hex2rgba('#878787', 0.7)} />
+                                <Loading fontSize={media(18, 20)} active={formik.isSubmitting} bg={hex2rgba(modalColor, 0.7)} />
                                 <Box className={styles.topBox}>
                                     <BaseButton classes={styles.selectFileButton} component="label" htmlFor="avatar-image">
                                         Select a file
