@@ -114,7 +114,6 @@ const LoginModal:FC = () => {
                     initialValues={{password: ""}}
                     validationSchema={validationSchema}
                     onSubmit={async (values, actions) => {
-                        console.log(values)
                         actions.setSubmitting(true);
                         actions.setStatus("");
                         const loginResult = await dispatch(login({uniqueId: authState.uniqueIdForLogin, password: values.password})).unwrap();

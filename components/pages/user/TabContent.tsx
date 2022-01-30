@@ -138,9 +138,13 @@ export const WorkInfo: FC = () => {
             <Typography component="p" fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.subtitle, styles.workInfoTitle, {dark: isDarkMode})}>
                 {data.subtitle ? data.subtitle : "User hasnt write anything"}
             </Typography>
-            <Typography component="p" fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.description, styles.workInfoTitle, {dark: isDarkMode})}>
-                {data.description ? data.description : "User hasnt write anything"}
-            </Typography>
+            <Typography
+                dangerouslySetInnerHTML={{__html: data.description ? data.description.replaceAll('\r\n', '<br />') : "User hasnt write anything"}}
+                component="p"
+                textAlign="center"
+                fontSize={workInfoTitleFontSize}
+                fontWeight="400"
+                className={clsx(styles.description, styles.workInfoTitle, {dark: isDarkMode})} />
             <Box className={styles.addressBox}>
                 <LocationOnIcon className={clsx(styles.addressIcon, styles.workInfoTitle, {dark: isDarkMode})} />
                 <Typography fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.workInfoTitle, {dark: isDarkMode})}>

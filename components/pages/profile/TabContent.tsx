@@ -86,6 +86,23 @@ const useWorkInfoStyles = makeStyles((theme:Theme) => ({
         fontSize: media(14, 17),
         color: theme.palette.secondary.main,
     },
+    textarea: {
+        width: '100%',
+        fontSize: media(16, 18),
+        color: theme.palette.primary.main,
+        padding: `${media(10, 12)} ${media(13, 15)}`,
+        borderRadius: 5,
+        border: 'none',
+        outline: 'none',
+        textAlign: 'center',
+        '&:focus': {
+            border: 'none',
+            outline: 'none'
+        },
+        '&::-webkit-scrollbar': {
+            display: 'none',
+        }
+    },
     button: {
         padding: `${media(4, 7)} ${media(30, 40)}`,
     }
@@ -164,10 +181,19 @@ export const WorkInfo:FC = () => {
                                 </Select>
                             </FormControl>
                         </Box>
-                        <BaseInput style={{fontFamily: fonts[formik.values.fontFamily].fontFamily}} placeholder="Title" name="title" id="title" />
-                        <BaseInput placeholder="Subtitle" name="subtitle" id="subtitle" />
-                        <BaseInput placeholder="Description" name="description" id="description" />
-                        <BaseInput placeholder="Address" name="address" id="address" />
+                        <BaseInput style={{fontFamily: fonts[formik.values.fontFamily].fontFamily, textAlign: 'center'}} placeholder="Title" name="title" id="title" />
+                        <BaseInput style={{textAlign: 'center'}} placeholder="Subtitle" name="subtitle" id="subtitle" />
+                        <textarea
+                            className={styles.textarea}
+                            rows={8}
+                            name="description"
+                            id="description"
+                            placeholder="Description"
+                            value={formik.values.description}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                        />
+                        <BaseInput style={{textAlign: 'center'}} placeholder="Address" name="address" id="address" />
                         <BaseButton classes={styles.button} type="submit">Save</BaseButton>
                         {!!formik.status && (
                             <Typography fontSize={media(14, 16)} fontWeight="500" color="secondary">

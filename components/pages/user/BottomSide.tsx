@@ -4,7 +4,6 @@ import {selectSelectedTab} from "../../../store/selector/user";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {setSelectedTab} from "../../../store/reducers/user";
 import {Box, Button, Container, Theme} from "@mui/material";
-import ChangeMode from "./ChangeMode";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
 import {userTabContent} from "../../../constants/main";
@@ -74,7 +73,6 @@ const BottomSide:FC = () => {
                         <elem.content />
                     </TabContent>
                 ))}
-                <ChangeMode />
             </Box>
             <Container disableGutters maxWidth="sm" className={styles.bottomButtonsBox}>
                 <Button onClick={handleOpenLoginModal} className={clsx(styles.bottomButton, {dark: isDarkMode})}>
