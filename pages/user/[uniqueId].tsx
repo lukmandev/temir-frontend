@@ -77,7 +77,7 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
                 )}
                 <title>{userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}</title>
                 {
-                    !!userInfo.data.avatar && <link rel="icon" href={userInfo.data.avatar} type="image/x-icon" />
+                    !!userInfo.data.avatar && <meta property="og:image" content={userInfo.data.avatar} />
                 }
             </Head>
             <Preload isRemove={isRemove} />
