@@ -11,8 +11,15 @@ import {userTabList} from "../../constants/main";
 const useStyles = makeStyles((theme:Theme) => ({
     tabs: {
         '& .MuiTabs-indicator': {
-            display: 'none'
-        }
+            height: '100%',
+            zIndex: 0,
+            background: theme.palette.septenary.main,
+            border: `1px solid ${theme.palette.primary.main}`,
+        },
+        '&.dark .MuiTabs-indicator': {
+            background: theme.palette.octonary.main,
+            border: `1px solid ${theme.palette.secondary.main}`,
+        },
     },
     tab: {
         flex: 1,
@@ -24,14 +31,9 @@ const useStyles = makeStyles((theme:Theme) => ({
             background: theme.palette.primary.main,
             border: `1px solid ${theme.palette.secondary.main}`,
         },
-        '&.Mui-selected': {
-            background: theme.palette.septenary.main,
-            '&.dark': {
-                background: theme.palette.octonary.main,
-            }
-        },
     },
     tabIcon: {
+        zIndex: 1,
         color: theme.palette.primary.main,
         fontSize: media(18, 22),
         '&.dark': {
@@ -49,7 +51,7 @@ export const UserTabs:FC<Props> = ({value, onChange}: Props) => {
     const styles = useStyles();
     const isDarkMode = useAppSelector(selectIsDarkMode);
     return (
-        <Tabs className={styles.tabs} value={value} onChange={onChange} sx={{width: '100%', display: 'flex', flex: '1 1 1'}}>
+        <Tabs className={clsx(styles.tabs, {dark: isDarkMode})} value={value} onChange={onChange} sx={{width: '100%', display: 'flex', flex: '1 1 1'}}>
             {userTabList.map((elem:any) => (
                 <Tab key={elem.id} value={elem.id} className={clsx(styles.tab, {dark: isDarkMode})} icon={<elem.icon className={clsx(styles.tabIcon, {dark: isDarkMode})} />} />
             ))}

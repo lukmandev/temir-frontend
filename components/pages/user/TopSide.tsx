@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
-import {Box, Switch} from "@mui/material";
+import {Box, Switch, Theme, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
 import Avatar from "../../User/Avatar";
@@ -10,9 +10,10 @@ import {styled} from "@mui/material/styles";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import {setIsDarkMode} from "../../../store/reducers/main";
+import {setLoginModalActive, setUniqueIdForLogin} from "../../../store/reducers/auth";
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme:Theme) => ({
     topSideBox: {
         width: '100%',
         display: 'flex',
@@ -29,8 +30,18 @@ const useStyles = makeStyles({
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         position: 'relative',
+    },
+    loginTitle: {
+        cursor: 'pointer',
+        position: 'absolute',
+        right: 15,
+        top: 10,
+        fontWeight: "600",
+        fontSize: media(16, 18),
+        color: theme.palette.secondary.main,
+        userSelect: 'none',
     }
-});
+}));
 
 const ModeSwitch = styled(Switch)(({ theme }) => ({
     padding: 8,
@@ -84,9 +95,17 @@ const TopSide:FC = () => {
         dispatch(setIsDarkMode(!isDarkMode));
     }
 
+    const handleOpenLoginModal = () => {
+        dispatch(setUniqueIdForLogin(user.data.uniqueId));
+        dispatch(setLoginModalActive(true));
+    }
+
     return (
         <Box className={styles.topSideBox}>
             <Box className={styles.bgBox} style={{backgroundImage: `url(${outBg()})`}}>
+                <Typography onClick={handleOpenLoginModal} className={styles.loginTitle}>
+                    LOGIN
+                </Typography>
                 <Avatar img={outAvatar()} />
                 <ModeSwitch
                     checked={isDarkMode}

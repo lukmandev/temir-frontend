@@ -3,16 +3,17 @@ import {TabContent, UserTabs} from "../../User/Tabs";
 import {selectSelectedTab} from "../../../store/selector/user";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {setSelectedTab} from "../../../store/reducers/user";
-import {Box, Button, Container, Theme} from "@mui/material";
+import {Box, Container, IconButton, Theme} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 import {media} from "../../../utility/media";
 import {userTabContent} from "../../../constants/main";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import clsx from "clsx";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
-import {setLoginModalActive, setUniqueIdForLogin} from "../../../store/reducers/auth";
 import {styles} from "../../User/styles";
-
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ReplyAllIcon from "@mui/icons-material/ReplyAll";
+import {setShareModalActive, setShareModalUrl} from "../../../store/reducers/main";
 
 
 const useStyles = makeStyles((theme:Theme) => ({
@@ -20,25 +21,37 @@ const useStyles = makeStyles((theme:Theme) => ({
         ...styles.content,
     },
     bottomButtonsBox: {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        position: 'sticky',
-        left: 0,
-        bottom: 0,
-        zIndex: 3,
-    },
-    bottomButton: {
-        width: '100%',
-        border: `1px solid ${theme.palette.primary.main}`,
-        color: theme.palette.primary.main,
-        background: theme.palette.secondary.main,
-        borderRadius: 0,
-        fontWeight: '600',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         padding: `${media(10, 15)} 0`,
+    },
+    iconButton: {
+        width: media(38, 45),
+        height: media(38, 45),
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: "#2795FB",
+        boxShadow: "0px 6px 6px rgba(117, 141, 154, 0.25)",
+        '&:hover': {
+            background: "#2795FB",
+        }
+    },
+    replyBoxIconButton: {
+        width: media(45, 55),
+        height: media(45, 55),
+    },
+    personAddIcon: {
+        color: theme.palette.primary.main,
+        fontSize: media(18, 20),
+    },
+    shareIcon: {
+        fontSize: media(20, 22),
+        color: theme.palette.primary.main,
         '&.dark': {
             color: theme.palette.secondary.main,
-            background: theme.palette.primary.main,
-            border: `1px solid ${theme.palette.secondary.main}`
         }
     }
 }));
@@ -60,10 +73,11 @@ const BottomSide:FC = () => {
         window.location.href = `${process.env.API_URL}/api/v1/users/save-contact/${data.uniqueId}`;
     }
 
-    const handleOpenLoginModal = () => {
-        dispatch(setUniqueIdForLogin(data.uniqueId));
-        dispatch(setLoginModalActive(true));
+    const handleOpenShareModal = () => {
+        dispatch(setShareModalUrl(`${process.env.BASE_URL}/user/${data.uniqueId}`));
+        dispatch(setShareModalActive(true));
     }
+
     return (
         <>
             <UserTabs value={selectedTab} onChange={handleTabChange} />
@@ -75,12 +89,12 @@ const BottomSide:FC = () => {
                 ))}
             </Box>
             <Container disableGutters maxWidth="sm" className={styles.bottomButtonsBox}>
-                <Button onClick={handleOpenLoginModal} className={clsx(styles.bottomButton, {dark: isDarkMode})}>
-                    Login
-                </Button>
-                <Button onClick={saveContact} className={clsx(styles.bottomButton, {dark: isDarkMode})}>
-                    Save contact
-                </Button>
+                <IconButton onClick={handleOpenShareModal} className={styles.replyBoxIconButton}>
+                    <ReplyAllIcon className={clsx(styles.shareIcon, {dark: isDarkMode})}  />
+                </IconButton>
+                <IconButton onClick={saveContact} className={styles.iconButton}>
+                    <PersonAddIcon className={styles.personAddIcon} />
+                </IconButton>
             </Container>
         </>
     )
