@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme:Theme) => ({
             background: theme.palette.octonary.main,
             border: `1px solid ${theme.palette.secondary.main}`,
         },
+        '& .tab__item:first-child': {
+            borderLeft: 'none',
+        },
+        '& .tab__item:last-child': {
+            borderRight: 'none',
+        },
     },
     tab: {
         flex: 1,
@@ -53,7 +59,7 @@ export const UserTabs:FC<Props> = ({value, onChange}: Props) => {
     return (
         <Tabs className={clsx(styles.tabs, {dark: isDarkMode})} value={value} onChange={onChange} sx={{width: '100%', display: 'flex', flex: '1 1 1'}}>
             {userTabList.map((elem:any) => (
-                <Tab key={elem.id} value={elem.id} className={clsx(styles.tab, {dark: isDarkMode})} icon={<elem.icon className={clsx(styles.tabIcon, {dark: isDarkMode})} />} />
+                <Tab key={elem.id} value={elem.id} className={clsx(styles.tab, 'tab__item', {dark: isDarkMode})} icon={<elem.icon className={clsx(styles.tabIcon, {dark: isDarkMode})} />} />
             ))}
         </Tabs>
     )

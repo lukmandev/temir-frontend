@@ -1,13 +1,13 @@
 import {FC, Key, useMemo} from "react";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
-import {Box, FormControl, Input, InputLabel, Link as MuiLink, Theme, Typography} from "@mui/material";
+import {Box, Link as MuiLink, Theme, Typography} from "@mui/material";
 import {outContactsInfo, socialsOut} from "../../../constants/main";
 import {makeStyles} from "@mui/styles";
 import {useAppSelector} from "../../../hooks/redux";
 import {selectIsDarkMode} from "../../../store/selector/main";
 import clsx from "clsx";
 import {media} from "../../../utility/media";
-import {fontFamilies, fonts} from "../../../constants/fonts";
+import {fonts, requiredFontFamilies} from "../../../constants/fonts";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
@@ -64,7 +64,7 @@ export const ContactsInfo: FC = () => {
                     <Typography fontSize={media(12, 14)} fontWeight="500" className={clsx(styles.label, {dark: isDarkMode})}>
                         {elem.label}
                     </Typography>
-                    <Typography style={{fontFamily: fontFamilies['WALLPOET'].fontFamily}} fontSize={media(16, 18)} className={clsx(styles.value, {dark: isDarkMode})}>
+                    <Typography style={{fontFamily: requiredFontFamilies['KANIT'].fontFamily}} fontSize={media(16, 18)} className={clsx(styles.value, {dark: isDarkMode})}>
                         {elem.value}
                     </Typography>
                 </MuiLink>

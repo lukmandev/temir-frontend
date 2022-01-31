@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import * as React from "react";
 
 
 interface fontType {
@@ -128,9 +129,15 @@ export const fonts: fontType = {
     },
 }
 
-
-export const fontFamilies = {
-    'WALLPOET': {
-        fontFamily: "'Wallpoet', cursive",
+export const requiredFontFamilies:fontType = {
+    KANIT: {
+        fontFamily: "'Kanit', sans-serif",
+        link: (key) => <link key={key} href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />,
+        fontWeight: 400
+    },
+    RALEWAY: {
+        fontFamily: "'Raleway', sans-serif",
+        link: (key) => <link key={key} href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />,
+        fontWeight: 400
     }
 }

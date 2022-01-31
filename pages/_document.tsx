@@ -5,14 +5,15 @@ import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../utility/createEmotionCache';
 import {ServerStyleSheets} from "@mui/styles";
 import {metaTags} from "../constants/seo";
+import {requiredFontFamilies} from "../constants/fonts";
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
+          {Object.entries(requiredFontFamilies).map((elem, i) =>  elem[1].link(i))}
+            <link rel="icon" href="/images/logo.svg" />
           <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"/>
             {metaTags.map((elem, i) => (
                 <meta {...elem} key={i} />

@@ -1,10 +1,11 @@
 import {makeStyles} from "@mui/styles";
+import {requiredFontFamilies} from "../../constants/fonts";
 
 
 const useStyles = makeStyles({
     '@global': {
         'html, body': {
-            fontFamily: "'Raleway', sans-serif",
+            fontFamily: requiredFontFamilies['RALEWAY'].fontFamily,
             boxSizing: 'border-box',
         },
         'a': {
