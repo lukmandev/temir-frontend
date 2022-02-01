@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme:Theme) => ({
     replyBoxIconButton: {
         width: media(45, 55),
         height: media(45, 55),
+        transform: 'scaleX(-1)',
     },
     personAddIcon: {
         color: theme.palette.primary.main,
