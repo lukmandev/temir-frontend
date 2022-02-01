@@ -8,7 +8,6 @@ import {Instagram, FacebookOutlined, WhatsappRounded, LinkedIn, Telegram, Twitte
 import Snapchat from "../components/Icons/Snapchat";
 import {
     WhatsappShareButton,
-    InstapaperShareButton,
     FacebookShareButton,
     LinkedinShareButton,
     TelegramShareButton,
@@ -180,10 +179,6 @@ interface shareSocialType{
 }
 
 export const shareSocials:shareSocialType[] = [
-    {
-        shareBtn: InstapaperShareButton,
-        icon: Instagram,
-    },
     {
         shareBtn: FacebookShareButton,
         icon: FacebookOutlined,

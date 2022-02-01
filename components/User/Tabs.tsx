@@ -14,11 +14,13 @@ const useStyles = makeStyles((theme:Theme) => ({
             height: '100%',
             zIndex: 0,
             background: theme.palette.septenary.main,
-            border: `1px solid ${theme.palette.primary.main}`,
+            borderTop: `1px solid ${theme.palette.primary.main}`,
+            borderBottom: `1px solid ${theme.palette.primary.main}`,
         },
         '&.dark .MuiTabs-indicator': {
             background: theme.palette.octonary.main,
-            border: `1px solid ${theme.palette.secondary.main}`,
+            borderTop: `1px solid ${theme.palette.secondary.main}`,
+            borderBottom: `1px solid ${theme.palette.secondary.main}`,
         },
         '& .tab__item:first-child': {
             borderLeft: 'none',
