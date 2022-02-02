@@ -80,7 +80,7 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
                     !!userInfo.data.avatar && <meta property="og:image" content={userInfo.data.avatar} />
                 }
             </Head>
-            <Preload isRemove={isRemove} />
+            <Preload isRemove={isRemove} title={userInfo.data.title} />
             <Container disableGutters maxWidth={false} className={clsx(styles.containedFluid, {dark: isDarkMode})}>
                 <Container maxWidth="sm" disableGutters>
                     <TopSide />

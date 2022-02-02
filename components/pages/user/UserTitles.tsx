@@ -18,10 +18,6 @@ const useStyles = makeStyles((theme:Theme) => ({
         alignItems: 'center',
         justifyContent: 'flex-start',
         gridRowGap: media(4, 6),
-        background: theme.palette.secondary.main,
-        '&.dark': {
-            background: theme.palette.primary.main,
-        }
     },
     title: {
         color: theme.palette.primary.main,

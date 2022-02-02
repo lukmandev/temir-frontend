@@ -139,5 +139,10 @@ export const requiredFontFamilies:fontType = {
         fontFamily: "'Raleway', sans-serif",
         link: (key) => <link key={key} href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />,
         fontWeight: 400
-    }
+    },
+    SAIRA_STENCIL_ONE: {
+        fontFamily: "'Saira Stencil One', cursive",
+        link: (key) => <link key={key} href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />,
+        fontWeight: 400
+    },
 }

@@ -1,8 +1,9 @@
 import {FC, useEffect} from "react";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {gsap} from "gsap";
 import {makeStyles} from '@mui/styles';
 import {media} from "../utility/media";
+import {requiredFontFamilies} from "../constants/fonts";
 
 
 
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
 });
 interface Props {
     isRemove: boolean;
+    title?: string;
 }
 
 const Preload:FC<Props> = (props:Props) => {
@@ -54,7 +56,13 @@ const Preload:FC<Props> = (props:Props) => {
     return (
         <Box className={styles.wrapper} id="preload-wrapper">
             <Box id="preload-box" className={styles.box}>
-                <img className={styles.logo} src={require('../assets/images/title-logo.svg')} />
+                {props.title ? (
+                    <Typography textAlign="center" color="secondary" fontSize={media(28, 45)} fontWeight="400" fontFamily={requiredFontFamilies['SAIRA_STENCIL_ONE'].fontFamily}>
+                        {props.title}
+                    </Typography>
+                ) : (
+                    <img className={styles.logo} src={require('../assets/images/title-logo.svg')} />
+                )}
             </Box>
         </Box>
     )

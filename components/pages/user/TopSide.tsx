@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme:Theme) => ({
         padding: `${media(80, 110)} 0 ${media(18, 24)}`,
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -111,8 +113,8 @@ const TopSide:FC = () => {
                     checked={isDarkMode}
                     onChange={handleModeChange}
                 />
+                <UserTitles />
             </Box>
-            <UserTitles />
         </Box>
     )
 }
