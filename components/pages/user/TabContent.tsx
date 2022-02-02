@@ -33,11 +33,9 @@ const useContactsStyles = makeStyles((theme: Theme) => ({
     },
     value: {
         color: theme.palette.primary.main,
-        borderBottom: `1px solid ${theme.palette.primary.main}`,
         padding: `${media(3, 5)} 0`,
         '&.dark': {
             color: theme.palette.secondary.main,
-            borderBottom: `1px solid ${theme.palette.secondary.main}`,
         },
     },
     noDataTitle: {
