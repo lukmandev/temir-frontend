@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         '&.dark': {
             background: theme.palette.primary.main,
         }

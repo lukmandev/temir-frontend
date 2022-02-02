@@ -113,8 +113,8 @@ const TopSide:FC = () => {
                     checked={isDarkMode}
                     onChange={handleModeChange}
                 />
-                <UserTitles />
             </Box>
+            <UserTitles />
         </Box>
     )
 }
