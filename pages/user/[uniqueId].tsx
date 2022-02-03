@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         justifyContent: 'center',
         alignItems: 'flex-start',
         '&.dark': {
-            background: theme.palette.primary.main,
+            background: "linear-gradient(179.8deg, #040401 3.17%, rgba(0, 1, 0, 0.68) 103.85%)",
         }
     },
 }));

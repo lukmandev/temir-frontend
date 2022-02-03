@@ -14,36 +14,24 @@ const useStyles = makeStyles((theme:Theme) => ({
             height: '100%',
             zIndex: 0,
             background: theme.palette.septenary.main,
-            borderTop: `1px solid ${theme.palette.primary.main}`,
-            borderBottom: `1px solid ${theme.palette.primary.main}`,
         },
         '&.dark .MuiTabs-indicator': {
             background: theme.palette.octonary.main,
-            borderTop: `1px solid ${theme.palette.secondary.main}`,
-            borderBottom: `1px solid ${theme.palette.secondary.main}`,
-        },
-        '& .tab__item:first-child': {
-            borderLeft: 'none',
-        },
-        '& .tab__item:last-child': {
-            borderRight: 'none',
         },
     },
     tab: {
         flex: 1,
         background: theme.palette.secondary.main,
-        border: `1px solid ${theme.palette.primary.main}`,
         padding: `${media(10, 15)} 0`,
         boxShadow: "0px 3px 8px 0px #00000040",
         '&.dark': {
             background: theme.palette.primary.main,
-            border: `1px solid ${theme.palette.secondary.main}`,
         },
     },
     tabIcon: {
         zIndex: 1,
         color: theme.palette.primary.main,
-        fontSize: media(18, 22),
+        fontSize: media(22, 25),
         '&.dark': {
             color: theme.palette.secondary.main,
         }
