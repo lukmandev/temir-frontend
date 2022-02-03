@@ -57,7 +57,7 @@ const Preload:FC<Props> = (props:Props) => {
         <Box className={styles.wrapper} id="preload-wrapper">
             <Box id="preload-box" className={styles.box}>
                 {props.title ? (
-                    <Typography textAlign="center" color="secondary" fontSize={media(28, 45)} fontWeight="400" fontFamily={requiredFontFamilies['SAIRA_STENCIL_ONE'].fontFamily}>
+                    <Typography letterSpacing="4px" textAlign="center" color="secondary" fontSize={media(16, 17)} fontWeight="400" fontFamily={requiredFontFamilies['SAIRA_STENCIL_ONE'].fontFamily}>
                         {props.title}
                     </Typography>
                 ) : (
