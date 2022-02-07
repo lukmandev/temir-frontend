@@ -26,7 +26,7 @@ import {useAppDispatch, useAppSelector} from "../hooks/redux";
 
 const containerPY = media(15, 20);
 
-const useStyles = makeStyles( (theme:Theme) => ({
+const useStyles = makeStyles( {
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -93,7 +93,7 @@ const useStyles = makeStyles( (theme:Theme) => ({
         gridRowGap: media(13, 17),
         margin: `${media(10, 14)} 0`,
     }
-}));
+});
 
 
 type OrderType = {
@@ -104,7 +104,7 @@ type OrderType = {
 
 const MessageText:FC = ({children, ...props}) => (
     <Typography fontSize={media(18, 20)} fontWeight="600" color="primary" {...props}>
-        There is no cards
+        {children}
     </Typography>
 );
 

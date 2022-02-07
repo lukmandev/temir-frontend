@@ -112,7 +112,7 @@ const CardSelectItem:FC<Props> = ({elem}:Props) => {
     return (
         <Box className={styles.cardSelectItem}>
             <Box className={styles.cardSelectTop} sx={{background: elem.color, color: elem.text_color}}>
-                {elem.color_title}
+                {elem.title}
             </Box>
             <Box className={styles.selectHolder}>
                 <Box className={styles.selectBox}>

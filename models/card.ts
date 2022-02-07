@@ -4,8 +4,8 @@
 
 export interface Card{
     id:number;
+    title: string;
     color:string;
-    color_title: string;
     text_color:string;
     image:string;
     price_dollar:number;
