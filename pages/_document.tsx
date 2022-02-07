@@ -4,7 +4,6 @@ import createEmotionServer from '@emotion/server/create-instance';
 
 import createEmotionCache from '../utility/createEmotionCache';
 import {ServerStyleSheets} from "@mui/styles";
-import {metaTags} from "../constants/seo";
 import {requiredFontFamilies} from "../constants/fonts";
 
 export default class MyDocument extends Document {
@@ -15,9 +14,6 @@ export default class MyDocument extends Document {
           {Object.entries(requiredFontFamilies).map((elem, i) =>  elem[1].link(i))}
             <link rel="icon" href="/images/logo.svg" />
           <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"/>
-            {metaTags.map((elem, i) => (
-                <meta {...elem} key={i} />
-            ))}
         </Head>
         <body>
           <Main />

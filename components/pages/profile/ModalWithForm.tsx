@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import {Box, Modal, Typography} from "@mui/material";
 import {selectAuth} from "../../../store/selector/auth";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
@@ -14,6 +14,9 @@ import Loading from "../../Form/Loading";
 import hex2rgba from "hex2rgba";
 import {checkTheDifference} from "../../../utility/form";
 import {modalColor} from "../../../constants/main";
+import clsx from "clsx";
+import {gsap} from "gsap";
+
 
 
 const useStyles = makeStyles({
@@ -26,9 +29,9 @@ const useStyles = makeStyles({
         position: 'absolute',
         left: '50%',
         top: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translate(-50%, -100%)',
 
-        padding: `${media(40, 50)} ${media(30, 45)} ${media(20, 25)}`
+        padding: `${media(40, 50)} ${media(30, 45)} ${media(20, 25)}`,
     },
     form: {
         display: 'flex',
@@ -50,15 +53,35 @@ const ModalWithForm:FC = () => {
     const styles = useStyles();
     const authState = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
+    const [isActive, setActive] = useState<boolean>(false);
     const profileActions = useProfileInfoActions();
     const currentData = profileActions[authState.modalWithFormData];
+
+    useEffect(() => {
+        if(authState.modalWithFormActive){
+            setActive(true);
+        }else{
+            setActive(false);
+        }
+    }, [authState.modalWithFormActive]);
+
+    useEffect(() => {
+        if(isActive){
+            gsap.to('.modal-with-form', { transform: "translate(-50%, -50%)", opacity: 1, duration: 1 });
+        }else{
+            gsap.to('.modal-with-form', { transform: "translate(-50%, -100%)", opacity: 0, duration: 1 });
+            setTimeout(() => {
+                dispatch(setModalWithFormActive(false));
+                dispatch(setModalWithFormData(null));
+            }, 1000);
+        }
+    }, [isActive]);
 
     const handleClose = () => {
         if(authState.modalWithFormData === 'PERSONAL_EMAIL'){
             return;
         }
-        dispatch(setModalWithFormActive(false));
-        dispatch(setModalWithFormData(null));
+        setActive(false);
     }
     if(!authState.modalWithFormActive){
         return null;
@@ -74,7 +97,7 @@ const ModalWithForm:FC = () => {
 
     return (
         <Modal open={authState.modalWithFormActive} onClose={handleClose}>
-            <Box className={styles.modal}>
+            <Box className={clsx(styles.modal, 'modal-with-form')}>
                 <Formik
                     enableReinitialize
                     initialValues={outFormikInitialValues()}

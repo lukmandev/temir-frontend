@@ -15,6 +15,8 @@ import LoginModal from "../components/LoginModal";
 import Loading from "../components/global/Loading";
 import OnceActions from "../components/global/OnceActions";
 import SimpleModal from "../components/SimpleModal";
+import {DefaultSeo} from "next-seo";
+import {metaTags} from "../constants/seo";
 
 export interface MyAppProps extends AppProps {
     emotionCache?: EmotionCache;
@@ -29,6 +31,7 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props: MyAppProps) => {
 
   return (
     <CacheProvider value={emotionCache}>
+        <DefaultSeo {...metaTags} />
       <ThemeProvider theme={theme}>
           <StoreProvider store={store}>
               <CssBaseline />

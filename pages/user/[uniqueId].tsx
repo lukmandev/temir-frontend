@@ -12,6 +12,7 @@ import {useRouter} from "next/router";
 import BottomSide from "../../components/pages/user/BottomSide";
 import Head from "next/head";
 import {fonts} from "../../constants/fonts";
+import {NextSeo} from "next-seo";
 
 
 export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
@@ -69,16 +70,19 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
 
     return (
         <UserContext.Provider value={userInfo}>
+            <NextSeo
+                title={userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}
+                {...userInfo.data.description ? {description: userInfo.data.description} : {}}
+                openGraph={{
+                    images: !!userInfo.data.avatar ? [
+                        {
+                            url: userInfo.data.avatar
+                        }
+                    ] : []
+                }}
+            />
             <Head>
                 {fonts[userInfo.data.fontFamily].link(1)}
-                <meta name="title" content={userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId} />
-                {!!userInfo.data.description && (
-                    <meta name="description" content={userInfo.data.description} />
-                )}
-                <title>{userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}</title>
-                {
-                    !!userInfo.data.avatar && <meta property="og:image" content={userInfo.data.avatar} />
-                }
             </Head>
             <Preload isRemove={isRemove} title={userInfo.data.title} />
             <Container disableGutters maxWidth={false} className={clsx(styles.containedFluid, {dark: isDarkMode})}>

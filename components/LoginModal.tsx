@@ -17,12 +17,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import clsx from "clsx";
 import {forgotPassword} from "../actions/user";
 import {setLoading} from "../store/reducers/main";
+import {modalColor} from "../constants/main";
 
 const useStyles = makeStyles((theme:Theme) => ({
     modal: {
         maxWidth: 400,
         width: '100%',
-        background: '#585858',
+        background: modalColor,
         borderRadius: 15,
 
         position: 'absolute',
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme:Theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: media(16, 18),
+        fontSize: media(14, 16),
         color: theme.palette.primary.main,
         background: theme.palette.secondary.main,
         borderRadius: 5,
