@@ -13,10 +13,10 @@ const Home: NextPage = () => {
 
     return (
         <MainLayout showFooter={true}>
-            {/*<Banner />*/}
-            {/*<EasyToUse />*/}
-            {/*<Cards />*/}
-            {/*<About />*/}
+            <Banner />
+            <EasyToUse />
+            <Cards />
+            <About />
         </MainLayout>
     )
 }

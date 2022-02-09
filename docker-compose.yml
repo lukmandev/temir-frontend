@@ -7,8 +7,6 @@ services:
     container_name: front
     ports:
       - "3000:3000"
-    volumes:
-      - /app
 
   nginx:
     image: linuxserver/swag
@@ -20,7 +18,7 @@ services:
       - URL=temir.ae
       - VALIDATION=http
       - ONLY_SUBDOMAINS=false
-      - STAGING=true
+      - STAGING=false
     depends_on:
       - web
     ports:
