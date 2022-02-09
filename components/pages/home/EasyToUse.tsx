@@ -92,8 +92,8 @@ const EasyToUse:FC = () => {
                 <iframe
                     width="100%"
                     style={{height: media(280, 615)}}
-                    src="https://www.youtube.com/embed/lxRwEPvL-mQ"
-                    title="YouTube video player"
+                    src="https://www.youtube.com/embed/Gn6UB7emn58"
+                    title="Temir"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen

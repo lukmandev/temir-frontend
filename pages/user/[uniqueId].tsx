@@ -67,19 +67,26 @@ const User = ({userInfo}: InferGetServerSidePropsType<typeof getServerSideProps>
         return "";
     }
 
+    const outOpenGraph = () => {
+        const content:any = {}
+        if(userInfo.data.avatar){
+            content['images'] = [{url: userInfo.data.avatar}]
+        }
+        if(userInfo.data.title){
+            content['title'] = userInfo.data.title;
+        }
+        if(userInfo.data.description){
+            content['description'] = userInfo.data.description;
+        }
+        return content;
+    }
 
     return (
         <UserContext.Provider value={userInfo}>
             <NextSeo
                 title={userInfo.data.fullname ? userInfo.data.fullname : userInfo.data.uniqueId}
                 {...userInfo.data.description ? {description: userInfo.data.description} : {}}
-                openGraph={{
-                    images: !!userInfo.data.avatar ? [
-                        {
-                            url: userInfo.data.avatar
-                        }
-                    ] : []
-                }}
+                openGraph={outOpenGraph()}
             />
             <Head>
                 {fonts[userInfo.data.fontFamily].link(1)}

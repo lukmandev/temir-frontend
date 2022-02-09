@@ -1,7 +1,7 @@
 import {FC, Key, useMemo} from "react";
 import {useUserContext} from "../../../pages/user/[uniqueId]";
 import {Box, Link as MuiLink, Theme, Typography} from "@mui/material";
-import {outContactsInfo, socialsOut} from "../../../constants/main";
+import {noDataText, outContactsInfo, socialsOut} from "../../../constants/main";
 import {makeStyles} from "@mui/styles";
 import {useAppSelector} from "../../../hooks/redux";
 import {selectIsDarkMode} from "../../../store/selector/main";
@@ -13,7 +13,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const useContactsStyles = makeStyles((theme: Theme) => ({
     form: {
-        display: 'flex',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
         flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
@@ -69,7 +70,7 @@ export const ContactsInfo: FC = () => {
             )) : (
                 <Box sx={{width: '100%', py: media(15, 23)}}>
                     <Typography textAlign="center" fontSize={media(18, 22)} fontWeight="500" className={clsx(styles.noDataTitle, {dark: isDarkMode})}>
-                        User hasnt write any contact
+                        {noDataText}
                     </Typography>
                 </Box>
             )}
@@ -131,10 +132,10 @@ export const WorkInfo: FC = () => {
     return (
         <Box className={styles.wrapper}>
             <Typography textAlign="center" component="h1" fontSize={media(23, 28)} fontWeight="400" className={clsx(styles.title, styles.workInfoTitle, {dark: isDarkMode})}>
-                {data.title ? data.title : "User hasnt write anything"}
+                {data.title ? data.title : noDataText}
             </Typography>
             <Typography component="p" fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.subtitle, styles.workInfoTitle, {dark: isDarkMode})}>
-                {data.subtitle ? data.subtitle : "User hasnt write anything"}
+                {data.subtitle ? data.subtitle : noDataText}
             </Typography>
             <Typography
                 textAlign="center"
@@ -142,12 +143,12 @@ export const WorkInfo: FC = () => {
                 fontSize={workInfoTitleFontSize}
                 fontWeight="400"
                 className={clsx(styles.description, styles.workInfoTitle, {dark: isDarkMode})}
-                dangerouslySetInnerHTML={{__html: data.description ? data.description.replaceAll('\r\n', "<br />") : "User hasnt write anything"}}
+                dangerouslySetInnerHTML={{__html: data.description ? data.description.replaceAll('\r\n', "<br />") : noDataText}}
              />
             <Box className={styles.addressBox}>
                 <LocationOnIcon className={clsx(styles.addressIcon, styles.workInfoTitle, {dark: isDarkMode})} />
                 <Typography fontSize={workInfoTitleFontSize} fontWeight="400" className={clsx(styles.workInfoTitle, {dark: isDarkMode})}>
-                    {data.address ? data.address : "User hasnt write anything"}
+                    {data.address ? data.address : noDataText}
                 </Typography>
             </Box>
         </Box>

@@ -384,3 +384,5 @@ export const socials:socialType[] = [
 ]
 
 export const modalColor = "#DFDADA";
+
+export const noDataText = "The user did not write anything";
