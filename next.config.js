@@ -10,8 +10,7 @@ module.exports = withImages({
         disableStaticImages: true
     },
     env: {
-        // API_URL: 'https://api.temir.ae',
-        API_URL: 'http://0.0.0.0:8000',
+        API_URL: 'https://api.temir.ae',
         BASE_URL: 'https://temir.ae'
     }
 });
