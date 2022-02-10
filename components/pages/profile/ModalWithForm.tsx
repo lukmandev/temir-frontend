@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import {FC} from "react";
 import {Box, Modal, Typography} from "@mui/material";
 import {selectAuth} from "../../../store/selector/auth";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
@@ -15,7 +15,6 @@ import hex2rgba from "hex2rgba";
 import {checkTheDifference} from "../../../utility/form";
 import {modalColor} from "../../../constants/main";
 import clsx from "clsx";
-import {gsap} from "gsap";
 
 
 
@@ -53,35 +52,15 @@ const ModalWithForm:FC = () => {
     const styles = useStyles();
     const authState = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
-    const [isActive, setActive] = useState<boolean>(false);
     const profileActions = useProfileInfoActions();
     const currentData = profileActions[authState.modalWithFormData];
-
-    useEffect(() => {
-        if(authState.modalWithFormActive){
-            setActive(true);
-        }else{
-            setActive(false);
-        }
-    }, [authState.modalWithFormActive]);
-
-    useEffect(() => {
-        if(isActive){
-            gsap.to('.modal-with-form', { transform: "translate(-50%, -50%)", opacity: 1, duration: 1 });
-        }else{
-            gsap.to('.modal-with-form', { transform: "translate(-50%, -100%)", opacity: 0, duration: 1 });
-            setTimeout(() => {
-                dispatch(setModalWithFormActive(false));
-                dispatch(setModalWithFormData(null));
-            }, 1000);
-        }
-    }, [isActive]);
 
     const handleClose = () => {
         if(authState.modalWithFormData === 'PERSONAL_EMAIL'){
             return;
         }
-        setActive(false);
+        dispatch(setModalWithFormActive(false));
+        dispatch(setModalWithFormData(null));
     }
     if(!authState.modalWithFormActive){
         return null;
