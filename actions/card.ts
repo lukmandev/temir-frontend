@@ -46,7 +46,7 @@ export const orderCard = createAsyncThunk(
         try {
             await api.post('cards/order/', body);
             result.success = true;
-            result.message = "Ваш заказ успешно отправлен";
+            result.message = "Your order has been successfully sent";
         } catch(e:any){
             result.success = false;
             result.message = ERRORS['ERROR_500'];
