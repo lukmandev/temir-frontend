@@ -1,2 +1,3 @@
 User-agent: *
 Disallow: /profile
+Sitemap: https://temir.ae/sitemap.xml

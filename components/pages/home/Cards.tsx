@@ -181,7 +181,7 @@ const Cards:FC = () => {
             {outCurrentCardPrice()}
             {outCards()}
             <NextLink href="/get-card">
-                <Button component={MuiLink} className={styles.button}>Get Your Card</Button>
+                <Button component={MuiLink} href="/get-card" className={styles.button}>Get Your Card</Button>
             </NextLink>
         </Container>
     )
